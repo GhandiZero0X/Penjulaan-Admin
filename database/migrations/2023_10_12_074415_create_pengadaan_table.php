@@ -12,7 +12,7 @@ class CreatePengadaanTable extends Migration
     public function up()
     {
         Schema::create('pengadaan', function (Blueprint $table) {
-            $table->id('idpengadaan'); // Kolom id sebagai primary key
+            $table->id('idpengadaan')->autoIncrement();
             $table->timestamp('timestamp')->nullable();
             $table->unsignedBigInteger('user_iduser');
             $table->char('status', 1)->nullable();
@@ -20,10 +20,20 @@ class CreatePengadaanTable extends Migration
             $table->integer('subtotal_nilai')->nullable();
             $table->integer('ppn')->nullable();
             $table->integer('total_nilai')->nullable();
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
 
-            // Foreign key constraints
-            $table->foreign('user_iduser')->references('iduser')->on('user')->onDelete('NO ACTION')->onUpdate('NO ACTION');
-            $table->foreign('vendor_idvendor')->references('idvendor')->on('vendor')->onDelete('NO ACTION')->onUpdate('NO ACTION');
+
+            $table->foreign('user_iduser', 'fk_pengadaan_user_iduser')
+                ->references('iduser')
+                ->on('user')
+                ->onDelete('NO ACTION')
+                ->onUpdate('NO ACTION');
+            $table->foreign('vendor_idvendor', 'fk_pengadaan_vendor_idvendor')
+                ->references('idvendor')
+                ->on('vendor')
+                ->onDelete('NO ACTION')
+                ->onUpdate('NO ACTION');
 
             $table->timestamps();
         });
@@ -36,4 +46,4 @@ class CreatePengadaanTable extends Migration
     {
         Schema::dropIfExists('pengadaan');
     }
-}
+};

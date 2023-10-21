@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user', function (Blueprint $table) {
-            $table->id('iduser');
+            $table->id('iduser')->autoIncrement();
             $table->string('username', 45)->nullable();
             $table->string('password', 100)->nullable();
             $table->unsignedBigInteger('idrole');
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
             $table->timestamps();
-
-            $table->primary('iduser');
-            $table->index('idrole', 'fk_user_role_idx');
 
             $table->foreign('idrole', 'fk_user_role')
                 ->references('idrole')

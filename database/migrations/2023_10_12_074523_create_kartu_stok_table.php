@@ -12,7 +12,7 @@ class CreateKartuStokTable extends Migration
     public function up()
     {
         Schema::create('kartu_stok', function (Blueprint $table) {
-            $table->id('idkartu_stok');
+            $table->id('idkartu_stok')->autoIncrement();
             $table->char('jenis_transaksi', 1)->nullable();
             $table->integer('masuk')->nullable();
             $table->integer('keluar')->nullable();
@@ -20,6 +20,8 @@ class CreateKartuStokTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('idtransaksi')->nullable();
             $table->unsignedBigInteger('idbarang');
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
 
             $table->foreign('idbarang')
                 ->references('idbarang')

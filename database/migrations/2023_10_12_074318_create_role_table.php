@@ -12,8 +12,10 @@ class CreateRoleTable extends Migration
     public function up()
     {
         Schema::create('role', function (Blueprint $table) {
-            $table->id('idrole');
-            $table->string('nama_role', 100)->nullable(); // Tambahkan kolom nama_role
+            $table->id('idrole')->autoIncrement();
+            $table->string('nama_role', 100)->nullable();
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -25,5 +27,4 @@ class CreateRoleTable extends Migration
     {
         Schema::dropIfExists('role');
     }
-}
-
+};

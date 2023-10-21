@@ -12,20 +12,26 @@ class CreateDetailPenerimaanTable extends Migration
     public function up()
     {
         Schema::create('detail_penerimaan', function (Blueprint $table) {
-            $table->id('iddetail_penerimaan');
+            $table->id('iddetail_penerimaan')->autoIncrement();
             $table->integer('harga_satuan');
             $table->integer('jumlah');
             $table->integer('sub_total');
             $table->unsignedBigInteger('idbarang');
             $table->unsignedBigInteger('idpengadaan');
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
 
             // Kunci asing ke tabel "barang"
-            $table->foreign('idbarang')->references('idbarang')->on('barang')
+            $table->foreign('idbarang')
+                ->references('idbarang')
+                ->on('barang')
                 ->onUpdate('NO ACTION')
                 ->onDelete('NO ACTION');
 
             // Kunci asing ke tabel "pengadaan"
-            $table->foreign('idpengadaan')->references('idpengadaan')->on('pengadaan')
+            $table->foreign('idpengadaan')
+                ->references('idpengadaan')
+                ->on('pengadaan')
                 ->onUpdate('NO ACTION')
                 ->onDelete('NO ACTION');
 

@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detail_retur', function (Blueprint $table) {
-            $table->id('iddetail_retur');
+            $table->id('iddetail_retur')->autoIncrement();
             $table->integer('jumlah');
             $table->string('alasan', 200);
             $table->unsignedBigInteger('idretur');
             $table->unsignedBigInteger('iddetail_penerimaan');
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('idretur')

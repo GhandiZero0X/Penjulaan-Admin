@@ -12,18 +12,19 @@ class CreateBarangTable extends Migration
     public function up()
     {
         Schema::create('barang', function (Blueprint $table) {
-            $table->increments('idbarang');
+            $table->id('idbarang')->autoIncrement();
             $table->char('jenis', 1)->nullable();
             $table->string('nama', 45)->nullable();
-            $table->integer('idsatuan')->unsigned();
+            $table->unsignedBigInteger('idsatuan'); // Mengubah tipe data kolom "idsatuan" menjadi unsignedBigInteger
             $table->tinyInteger('status')->nullable();
             $table->integer('harga')->nullable();
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
             $table->timestamps();
-        });
 
-        // Set foreign key constraint to the 'idsatuan' column
-        Schema::table('barang', function (Blueprint $table) {
-            $table->foreign('idsatuan')->references('idsatuan')->on('satuan')
+            $table->foreign('idsatuan')
+                ->references('idsatuan')
+                ->on('satuan')
                 ->onUpdate('NO ACTION')
                 ->onDelete('NO ACTION');
         });
@@ -34,12 +35,6 @@ class CreateBarangTable extends Migration
      */
     public function down()
     {
-        // Drop the foreign key constraint first
-        Schema::table('barang', function (Blueprint $table) {
-            $table->dropForeign(['idsatuan']);
-        });
-
         Schema::dropIfExists('barang');
     }
-}
-
+};

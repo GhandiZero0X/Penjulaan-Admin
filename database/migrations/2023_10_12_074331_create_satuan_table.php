@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('satuan', function (Blueprint $table) {
-            $table->id('idsatuan');
+            $table->id('idsatuan')->autoIncrement();
             $table->string('nama_satuan', 45)->nullable();
-            $table->tinyInteger('status')->nullable();
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
             $table->timestamps();
-            $table->primary('idsatuan');
         });
     }
 

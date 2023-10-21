@@ -9,11 +9,13 @@ class CreateVendorTable extends Migration
     public function up()
     {
         Schema::create('vendor', function (Blueprint $table) {
-            $table->id('idvendor'); // Ini akan membuat kolom "id" yang auto-increment
+            $table->id('idvendor')->autoIncrement();
             $table->string('nama_vendor', 100)->nullable();
             $table->char('badan_hukum', 1)->nullable();
             $table->char('status', 1)->nullable();
-            $table->timestamps(); // Ini akan membuat kolom "created_at" dan "updated_at"
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -21,4 +23,4 @@ class CreateVendorTable extends Migration
     {
         Schema::dropIfExists('vendor');
     }
-}
+};

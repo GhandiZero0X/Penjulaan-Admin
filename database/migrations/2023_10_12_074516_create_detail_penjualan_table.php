@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detail_penjualan', function (Blueprint $table) {
-            $table->id('iddetail_penjualan');
+            $table->id('iddetail_penjualan')->autoIncrement();
             $table->integer('harga_satuan');
             $table->integer('jumlah');
             $table->integer('subtotal');
             $table->unsignedBigInteger('penjualan_idpenjualan');
             $table->unsignedBigInteger('idbarang');
+            $table->boolean('status_aktif')->default(true);
+            $table->softDeletes();
             $table->timestamps();
 
             // Kunci asing ke tabel 'penjualan'
