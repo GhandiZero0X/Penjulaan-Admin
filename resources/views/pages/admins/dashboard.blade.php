@@ -1,10 +1,6 @@
 @extends('layouts.appAdmin')
 
 @section('content')
-
-@endsection
-<!-- page dashboard-->
-<div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
             <div class="col-sm-6">
@@ -555,6 +551,4 @@
             </div>
         </div>
     </div>
-    <!-- content-wrapper ends -->
-</div>
-<!-- main-panel ends -->
+@endsection

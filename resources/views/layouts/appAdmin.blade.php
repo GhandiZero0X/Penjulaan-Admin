@@ -24,8 +24,10 @@
         <div class="container-fluid page-body-wrapper">
             @include('partials.settings-panel')
             @include('partials.sidebar')
-            @yield('content')
-            @include('partials.footer')
+            <div class="main-panel">
+                @yield('content')
+                @include('partials.footer')
+            </div>
         </div>
     </div>
     <!-- base:js -->
@@ -45,7 +47,8 @@
     <script src="vendors/chart.js/Chart.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- Custom js for this page-->
-    <script src="js/dashboard.js"></script>
+    {{-- <script src="js/dashboard.js"></script> --}}
+    <script src="{{ asset('js/dashboard.js') }}"></script>
     <!-- End custom js for this page-->
 </body>
 
