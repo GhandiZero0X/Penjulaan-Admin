@@ -32,8 +32,10 @@ Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
 Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
 Route::post('/roles', [RoleController::class, 'create'])->name('roles.store');
 Route::put('/roles/{idrole}', [RoleController::class, 'update'])->name('roles.update');
-Route::get('/roles/{idrole}/edit', [RoleController::class, 'update'])->name('roles.edit');
 Route::put('/roles/{idrole}/softdelete', [RoleController::class, 'softDelete'])->name('roles.softdelete');
+Route::get('/soft-deleted-roles', [RoleController::class, 'getSoftDeletedRoles'])->name('roles.getsoftdeleted');
+Route::put('/restore-role/{id}', [RoleController::class, 'restoreRole'])->name('role.restore');
+
 
 // Page User Routes
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
