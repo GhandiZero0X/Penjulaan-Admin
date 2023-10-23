@@ -4,54 +4,81 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class RoleController extends Controller
 {
-    // Create (Insert) Data
-    public function create(Request $request)
-    {
-        $namaRole = $request->input('nama_role');
-
-        // Insert data ke tabel "role"
-        DB::table('role')->insert([
-            'nama_role' => $namaRole,
-        ]);
-
-        return redirect('/roles')->with('success', 'Data berhasil ditambahkan.');
-    }
-
-    // Read (Select) Data
-    public function read()
+    public function index()
     {
         // Mengambil data dari tabel "role" yang memiliki status_aktif 1
         $roles = DB::table('role')->where('status_aktif', 1)->get();
 
-        return view('roles.index', ['roles' => $roles]);
+        return view('pages.admins.role', ['roles' => $roles]);
     }
+
+    public function create(Request $request)
+    {
+        $namaRole = $request->input('nama_role');
+
+        // Cek apakah peran dengan nama yang sama sudah ada
+        $existingRole = DB::table('role')->where('nama_role', $namaRole)->first();
+
+        if ($existingRole) {
+            return response()->json(['error' => 'Peran dengan nama yang sama sudah ada.']);
+        }
+
+        // Insert data ke tabel "role"
+        $newRole = DB::table('role')->insert([
+            'nama_role' => $namaRole,
+            'status_aktif' => 1,
+        ]);
+
+        if ($newRole) {
+            // Mengambil data role yang baru saja dibuat
+            $roleData = DB::table('role')->where('nama_role', $namaRole)->first();
+
+            return response()->json($roleData);
+        } else {
+            return response()->json(['error' => 'Gagal menambahkan role.']);
+        }
+    }
+
 
     // Update Data
     public function update(Request $request, $idrole)
     {
-        $namaRole = $request->input('nama_role');
+        $namaRole = $request->input('edit_nama_role'); // Use 'edit_nama_role' field name
 
-        // Update data di tabel "role"
-        DB::table('role')
+        // Update data in the "role" table
+        $affectedRows = DB::table('role')
             ->where('idrole', $idrole)
             ->update([
                 'nama_role' => $namaRole,
             ]);
 
-        return redirect('/roles')->with('success', 'Data berhasil diperbarui.');
+        if ($affectedRows > 0) {
+            // If the update was successful
+            $roleData = DB::table('role')->where('idrole', $idrole)->first();
+            return response()->json($roleData);
+        } else {
+            // If the update failed
+            return response()->json(['error' => 'Gagal memperbarui role. Silakan coba lagi.']);
+        }
     }
+
 
     // Soft Delete (Update status_aktif)
     public function softDelete($idrole)
     {
         // Update status_aktif menjadi 0 (non-aktif) pada data dengan idrole tertentu
-        DB::table('role')
+        $affectedRows = DB::table('role')
             ->where('idrole', $idrole)
             ->update(['status_aktif' => 0]);
 
-        return redirect('/roles')->with('success', 'Data berhasil dihapus (soft delete).');
+        if ($affectedRows > 0) {
+            return response()->json(['message' => 'Role berhasil dihapus (soft delete).']);
+        } else {
+            return response()->json(['error' => 'Gagal menghapus role.']);
+        }
     }
 }
