@@ -9,52 +9,108 @@ class SatuanController extends Controller
 {
     public function index()
     {
-        // Membaca data satuan yang memiliki status_aktif 1 (aktif)
-        $satuan = DB::table('satuan')->where('status_aktif', 1)->get();
-        return view('satuan.index', ['satuan' => $satuan]);
-    }
-
-    public function create()
-    {
-        // Menampilkan form untuk membuat data satuan baru
-        return view('satuan.create');
-    }
-
-    public function store(Request $request)
-    {
-        // Menyimpan data satuan baru ke dalam database
-        DB::table('satuan')->insert([
-            'nama_satuan' => $request->nama_satuan,
-            'status_aktif' => 1, // Data baru selalu aktif
+        // Query native untuk menampilkan data
+        $satuans = DB::select('SELECT *
+                            FROM satuan
+                            WHERE status_aktif = ?', [1]);
+        return view('pages.admins.satuan', [
+            'satuans' => $satuans,
+            'title' => 'Satuan'
         ]);
-
-        return redirect('/satuan')->with('success', 'Data satuan berhasil ditambahkan');
     }
 
-    public function edit($id)
+    public function create(Request $request)
     {
-        // Menampilkan form untuk mengedit data satuan
-        $satuan = DB::table('satuan')->where('idsatuan', $id)->first();
-        return view('satuan.edit', ['satuan' => $satuan]);
+        $namaSatuan = $request->input('nama_satuan');
+
+        // Cek apakah satuan dengan nama yang sama sudah ada
+        $existingSatuan = DB::select('SELECT *
+                                    FROM satuan
+                                    WHERE nama_satuan = ? LIMIT 1', [$namaSatuan]);
+
+        if (!empty($existingSatuan)) {
+            return response()->json(['error' => 'Satuan dengan nama yang sama sudah ada.']);
+        }
+
+        // Insert data ke tabel "satuan"
+        $newSatuan = DB::insert('INSERT INTO satuan (nama_satuan, status_aktif)
+                                VALUES (?, 1)', [$namaSatuan]);
+
+        if ($newSatuan) {
+            // Mengambil data satuan yang baru saja dibuat
+            $satuanData = DB::select('SELECT *
+                                    FROM satuan
+                                    WHERE nama_satuan = ? LIMIT 1', [$namaSatuan]);
+
+            if (!empty($satuanData)) {
+                return response()->json($satuanData[0]);
+            } else {
+                return response()->json(['error' => 'Gagal menambahkan satuan.']);
+            }
+        } else {
+            return response()->json(['error' => 'Gagal menambahkan satuan.']);
+        }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $idsatuan)
     {
-        // Mengupdate data satuan
-        DB::table('satuan')->where('idsatuan', $id)->update([
-            'nama_satuan' => $request->nama_satuan,
-        ]);
+        $namaSatuan = $request->input('edit_nama_satuan');
 
-        return redirect('/satuan')->with('success', 'Data satuan berhasil diperbarui');
+        // Update data in the "satuan" table using a raw query
+        $affectedRows = DB::update('UPDATE satuan
+                                    SET nama_satuan = ?
+                                    WHERE idsatuan = ? AND status_aktif = 1', [$namaSatuan, $idsatuan]);
+
+        if ($affectedRows > 0) {
+            // If the update was successful
+            $satuanData = DB::select('SELECT *
+                                    FROM satuan
+                                    WHERE idsatuan = ? LIMIT 1', [$idsatuan]);
+
+            if (!empty($satuanData)) {
+                return response()->json($satuanData[0]);
+            } else {
+                return response()->json(['error' => 'Gagal memperbarui satuan. Silakan coba lagi.']);
+            }
+        } else {
+            return response()->json(['error' => 'Gagal memperbarui satuan. Silakan coba lagi.']);
+        }
     }
 
-    public function softDelete($id)
+    public function softDelete($idsatuan)
     {
-        // Melakukan soft delete (mengubah status_aktif menjadi 0)
-        DB::table('satuan')->where('idsatuan', $id)->update([
-            'status_aktif' => 0,
-        ]);
+        // Update status_aktif menjadi 0 (non-aktif) pada data dengan idsatuan tertentu menggunakan raw query
+        $affectedRows = DB::update('UPDATE satuan
+                                    SET status_aktif = 0
+                                    WHERE idsatuan = ?', [$idsatuan]);
 
-        return redirect('/satuan')->with('success', 'Data satuan berhasil dihapus (soft delete)');
+        if ($affectedRows > 0) {
+            return response()->json(['message' => 'Satuan berhasil dihapus']);
+        } else {
+            return response()->json(['error' => 'Gagal menghapus satuan']);
+        }
+    }
+
+    public function getSoftDeletedSatuans()
+    {
+        // Mengambil data satuan yang dihapus secara lunak (status_aktif = 0)
+        $softDeletedSatuans = DB::select('SELECT *
+                                        FROM satuan
+                                        WHERE status_aktif = ?', [0]);
+        return response()->json($softDeletedSatuans);
+    }
+
+    public function restoreSatuan($id)
+    {
+        // Mengembalikan status_aktif satuan ke 1 (aktif)
+        $affectedRows = DB::update('UPDATE satuan
+                                    SET status_aktif = ?
+                                    WHERE idsatuan = ?', [1, $id]);
+
+        if ($affectedRows > 0) {
+            return response()->json(['message' => 'Satuan berhasil dipulihkan.']);
+        } else {
+            return response()->json(['error' => 'Gagal memulihkan satuan.']);
+        }
     }
 }
