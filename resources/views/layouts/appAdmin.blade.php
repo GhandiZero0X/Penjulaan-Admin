@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
 
-    <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="shortcut icon" href="images/Teck_Market.png" />
 </head>
 
 <body>
