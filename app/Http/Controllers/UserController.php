@@ -15,7 +15,7 @@ class UserController extends Controller
             ->where('status_aktif', 1) // Hanya menampilkan data yang status_aktif nya 1 (aktif)
             ->get();
 
-        return view('user.index', compact('users'));
+        return view('pages.admins.user', compact('users'));
     }
 
     // Menampilkan form tambah pengguna

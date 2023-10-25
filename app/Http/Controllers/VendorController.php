@@ -14,7 +14,10 @@ class VendorController extends Controller
             ->where('status_aktif', 1) // Hanya tampilkan yang belum dihapus
             ->get();
 
-        return view('vendor.index', compact('vendors'));
+        return view('pages.admins.vendor', [
+            'vendors' => $vendors,
+            'title' => 'Vendor'
+        ]);
     }
 
     // Menampilkan form untuk membuat data baru

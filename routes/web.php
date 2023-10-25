@@ -29,13 +29,19 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Page Role Routes
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
-Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
 Route::post('/roles', [RoleController::class, 'create'])->name('roles.store');
 Route::put('/roles/{idrole}', [RoleController::class, 'update'])->name('roles.update');
 Route::put('/roles/{idrole}/softdelete', [RoleController::class, 'softDelete'])->name('roles.softdelete');
 Route::get('/soft-deleted-roles', [RoleController::class, 'getSoftDeletedRoles'])->name('roles.getsoftdeleted');
 Route::put('/restore-role/{id}', [RoleController::class, 'restoreRole'])->name('role.restore');
 
+// Page Satuan Routes
+Route::get('/satuans', [SatuanController::class, 'index'])->name('satuans.index');
+Route::post('/satuans', [SatuanController::class, 'create'])->name('satuans.store');
+Route::put('/satuans/{idsatuan}', [SatuanController::class, 'update'])->name('satuans.update');
+Route::put('/satuans/{idsatuan}/softdelete', [SatuanController::class, 'softDelete'])->name('satuans.softdelete');
+Route::get('/soft-deleted-satuans', [SatuanController::class, 'getSoftDeletedSatuans'])->name('satuans.getsoftdeleted');
+Route::put('/restore-satuan/{id}', [SatuanController::class, 'restoreSatuan'])->name('satuan.restore');
 
 // Page User Routes
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
@@ -44,14 +50,6 @@ Route::post('/users', [UserController::class, 'store'])->name('user.store');
 Route::get('/users/{iduser}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/users/{iduser}', [UserController::class, 'update'])->name('user.update');
 Route::put('/users/{iduser}/softdelete', [UserController::class, 'softDelete'])->name('user.softdelete');
-
-// Page Satuan Routes
-Route::get('/satuan', [SatuanController::class, 'index'])->name('satuan.index');
-Route::get('/satuan/create', [SatuanController::class, 'create'])->name('satuan.create');
-Route::post('/satuan', [SatuanController::class, 'store'])->name('satuan.store');
-Route::get('/satuan/{idsatuan}/edit', [SatuanController::class, 'edit'])->name('satuan.edit');
-Route::put('/satuan/{idsatuan}', [SatuanController::class, 'update'])->name('satuan.update');
-Route::put('/satuan/{idsatuan}/softdelete', [SatuanController::class, 'softDelete'])->name('satuan.softdelete');
 
 // Page Barang Routes
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');

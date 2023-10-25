@@ -16,7 +16,7 @@ class BarangController extends Controller
             ->where('barang.status_aktif', 1) // Hanya tampilkan yang belum dihapus
             ->get();
 
-        return view('barang.index', compact('barang'));
+        return view('pages.admins.barang', compact('barang'));
     }
 
     // Menampilkan form untuk membuat data baru
