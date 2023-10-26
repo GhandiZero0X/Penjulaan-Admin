@@ -23,10 +23,10 @@
                         <div class="card-body border p-3" id="createUserForm"
                             style="display: none; margin-top: 10px; background-color: #fffefe; border-radius: 5px;">
                             <h3 class="card-title">Tambah User Baru</h3>
-                            <form id="userForm" action="{{ route('user.store') }}" method="POST">
+                            <form id="userForm" action="{{ route('user.create') }}" method="POST">
                                 @csrf
                                 <div class="form-group d-flex">
-                                    <label for="username" class="mr-2">Nama User</label>
+                                    <label for="username" class="mr-2">Nama</label>
                                     <input type="text" class="form-control bold" id="username" name="username"
                                         style="width: 60%; height: 20px;">
                                     <button type="submit" class="btn btn-success btn-sm ml-4"
@@ -42,7 +42,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-flex">
-                                    <label for="password" class="mr-2">Password User</label>
+                                    <label for="password" class="mr-2">Password</label>
                                     <input type="text" class="form-control bold" id="password" name="password"
                                         style="width: 60%; height: 20px;">
                                 </div>
@@ -62,7 +62,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="softDeletedUsers">
-                                    <!-- Content will be added via JavaScript -->
+
                                 </tbody>
                             </table>
                             <button type="button" class="btn btn-sm btn-secondary mt-2" data-dismiss="modal"
@@ -138,45 +138,53 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Button for adding a new User
+        // Tombol "Tambah User" diklik
         $('#addUserButton').click(function() {
             let form = $('#createUserForm');
-            form.slideToggle();
+
+            if (form.is(':visible')) {
+                form.slideUp();
+            } else {
+                form.slideDown();
+            }
         });
 
-        // Create User Baru
+        // Form "Create User" disubmit
         $('#userForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
 
+            // Kirim data form ke server melalui AJAX
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
+                    // Sembunyikan form setelah data terkirim
                     $('#createUserForm').slideUp();
 
                     if (response.error) {
                         alert('Error: ' + response.error);
                     } else {
-                        var newRow = '<tr>' +
-                            '<td>' + response.iduser + '</td>' +
-                            '<td>' + response.username + '</td>' +
-                            '<td>' + response.nama_role + '</td>' +
-                            '<td>Aktif</td>' +
-                            '<td style="text-align: center;">' +
-                            '<button data-id="' + response.iduser +
-                            '" class="btn btn-warning btn-sm editUser"><i class="typcn typcn-pencil"></i> Edit</button>' +
-                            '<button data-id="' + response.iduser +
-                            '" class="btn btn-danger btn-sm deleteUser"><i class="typcn typcn-trash"></i> Hapus</button>' +
-                            '</td></tr>';
-                        $('table.table tbody').append(newRow);
+                        // Tambahkan user baru ke tabel jika berhasil disimpan
+                        var newRow = '<tr>';
+                        newRow += '<td>' + response.iduser + '</td>';
+                        newRow += '<td>' + response.username + '</td>';
+                        newRow += '<td>' + response.nama_role + '</td>';
+                        newRow += '<td>Aktif</td>';
+                        newRow += '<td style="text-align: center;">';
+                        newRow += '<button data-id="' + response.iduser +
+                            '" class="btn btn-warning btn-sm editUser"><i class="typcn typcn-pencil"></i> Edit</button>';
+                        newRow += '<button data-id="' + response.iduser +
+                            '" class="btn btn-danger btn-sm deleteUser"><i class="typcn typcn-trash"></i> Hapus</button>';
+                        newRow += '</td></tr>';
+                        $('table tbody').append(newRow);
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
-                    alert('Failed to add User. Please try again.');
+                    alert('Gagal menambahkan user. Silakan coba lagi.');
                 }
             });
         });
@@ -256,10 +264,12 @@
             });
         });
 
-        // View soft-deleted User entries
+        // History Hapus
         $('#historyDeleteButton').click(function() {
+            // Bersihkan daftar "softDeletedUsers" sebelum menambahkan yang baru
             $('#softDeletedUsers').empty();
 
+            // Ambil data user yang dihapus secara lunak dari server (misalnya melalui Ajax)
             $.ajax({
                 url: '/soft-deleted-users',
                 type: 'GET',
@@ -269,51 +279,60 @@
                             var row = '<tr>' +
                                 '<td>' + user.username + '</td>' +
                                 '<td>' + user.nama_role + '</td>' +
-                                '<td style="text-align: center;">' +
-                                '<button data-id="' + user.iduser +
-                                '" class="btn btn-sm btn-success restoreUser">Restore</button>' +
-                                '</td>' +
+                                '<td><button data-id="' + user.iduser +
+                                '" class="btn btn-sm btn-success restoreUser">Pulihkan</button></td>' +
                                 '</tr>';
                             $('#softDeletedUsers').append(row);
                         });
 
-                        $('#tampil-history-hapus').slideDown();
+                        // Animasikan efek slide ke bawah
+                        $('#softDeletedUsers').slideDown();
+
+                        // Aktifkan card dengan efek slide ke bawah
+                        $('#tampil-history-hapus').slideDown(); // Menampilkan card
                     } else {
-                        alert('No soft-deleted User entries found.');
+                        alert('Tidak ada user yang dihapus secara lunak.');
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
-                    alert(
-                        'Failed to retrieve soft-deleted User entries. Please try again.'
-                    );
+                    alert('Gagal mengambil data history hapus user. Silakan coba lagi.');
                 }
             });
         });
 
-        // Restore soft-deleted User entry
-        $('#softDeletedUsers').on('click', '.restoreUser', function() {
+        // Menutup list history hapus user
+        $('#tampil-history-hapus .btn-secondary').click(function() {
+            $('#softDeletedUsers').slideUp(); // Efek slide ke atas
+            $('#tampil-history-hapus').slideUp(); // Efek slide ke atas
+        });
+
+        // Update Pulihkan User
+        $(document).on('click', '.restoreUser', function() {
             var userId = $(this).data('id');
 
+            // Mendapatkan _token CSRF dari meta-tag
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
+            // Lakukan pemulihan user (misalnya melalui Ajax) dengan menyertakan _token CSRF
             $.ajax({
-                url: '/restore-users/' + userId,
+                url: '{{ route('user.restore', ':id') }}'.replace(':id', userId),
                 type: 'PUT',
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken
+                    'X-CSRF-TOKEN': csrfToken // Sertakan _token CSRF dalam header
                 },
                 success: function(response) {
                     if (response.message) {
                         alert(response.message);
+                        // Refresh halaman setelah pemulihan berhasil
                         location.reload();
                     } else {
-                        alert('Failed to restore User.');
+                        alert('Gagal memulihkan user.');
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
-                    alert('Failed to restore User. Please try again.');
+                    alert('Gagal memulihkan user. Silakan coba lagi.');
                 }
             });
         });

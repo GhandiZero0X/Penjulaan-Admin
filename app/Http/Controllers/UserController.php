@@ -25,32 +25,34 @@ class UserController extends Controller
         ]);
     }
 
-
     public function create(Request $request)
     {
         $username = $request->input('username');
         $password = $request->input('password');
-        $idrole = $request->input('idrole'); // ID role
+        $idrole = $request->input('idrole');
+
         // Pastikan bahwa password di-hash sebelum disimpan
         $hashedPassword = bcrypt($password);
 
         // Periksa apakah user dengan username yang sama sudah ada
         $existingUser = DB::select('SELECT *
-                                FROM USER
-                                WHERE username = ? LIMIT 1', [$username]);
+                                    FROM user
+                                    WHERE username = ? LIMIT 1', [$username]);
 
         if (!empty($existingUser)) {
             return response()->json(['error' => 'User dengan username yang sama sudah ada.']);
         }
 
-        // Insert data ke dalam tabel "USER"
-        $newUser = DB::insert('INSERT INTO USER (username, PASSWORD, idrole, status_aktif)
-                                VALUES (?, ?, ?, 1)', [$username, $hashedPassword, $idrole]);
+        // Insert data ke dalam tabel "user" dengan menggunakan SQL native
+        $newUser = DB::insert('INSERT INTO user (username, password, idrole, status_aktif)
+                            VALUES (?, ?, ?, 1)', [$username, $hashedPassword, $idrole]);
+
         if ($newUser) {
             // Ambil data user yang baru saja dibuat
             $userData = DB::select('SELECT *
-                                        FROM USER
-                                        WHERE username = ? LIMIT 1', [$username]);
+                                    FROM user
+                                    WHERE username = ? LIMIT 1', [$username]);
+
             if (!empty($userData)) {
                 return response()->json($userData[0]);
             } else {
@@ -128,19 +130,20 @@ class UserController extends Controller
 
     public function getSoftDeletedUsers()
     {
-        // Ambil data untuk user yang telah dihapus (status_aktif = 0)
-        $softDeletedUsers = DB::select('SELECT *
-                                        FROM USER
-                                        WHERE status_aktif = ?', [0]);
+        // Ambil data untuk user yang telah dihapus secara lunak (status_aktif = 0)
+        $softDeletedUsers = DB::select('SELECT u.iduser, u.username, r.nama_role
+                                    FROM user u
+                                    JOIN role r ON u.idrole = r.idrole
+                                    WHERE u.status_aktif = ?', [0]);
         return response()->json($softDeletedUsers);
     }
 
     public function restoreUser($id)
     {
         // Setel status_aktif user kembali menjadi 1 (aktif)
-        $affectedRows = DB::update('UPDATE USER
-                                    SET status_aktif = ?
-                                    WHERE iduser = ?', [1, $id]);
+        $affectedRows = DB::update('UPDATE user
+                                SET status_aktif = ?
+                                WHERE iduser = ?', [1, $id]);
 
         if ($affectedRows > 0) {
             return response()->json(['message' => 'User berhasil dipulihkan.']);

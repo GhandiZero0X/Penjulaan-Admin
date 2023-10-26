@@ -32,7 +32,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between">
-                            <h4 class="card-title mb-3">E-Commerce Analytics</h4>
+                            <h4 class="card-title mb-3">TeckMarket Analytics</h4>
                         </div>
                         <div class="row">
                             <div class="col-lg-9">
@@ -59,14 +59,15 @@
                                         <button type="button" class="btn btn-sm btn-light">Month</button>
                                     </div>
                                 </div>
-                                <div class="chart-container mt-4">
-                                    
+                                <div class="chart-container mt-4" style="text-align: center">
+                                    <img src="images/pie-chart.png" alt="logo" class="chart-analiytics"
+                                        style="width: 40%; height: auto;">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div>
                                     <div class="d-flex justify-content-between mb-3">
-                                        <div class="text-success font-weight-bold">Inbound</div>
+                                        <div class="text-success font-weight-bold">Total Pembelian User</div>
                                     </div>
                                     <div class="d-flex justify-content-between mb-3">
                                         <div class="font-weight-medium">Current</div>
@@ -80,31 +81,23 @@
                                         <div class="font-weight-medium">Maximum</div>
                                         <div class="text-muted">68.14M</div>
                                     </div>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <div class="font-weight-medium">60th %</div>
-                                        <div class="text-muted">168.3GB</div>
-                                    </div>
                                 </div>
                                 <hr>
                                 <div class="mt-4">
                                     <div class="d-flex justify-content-between mb-3">
-                                        <div class="text-success font-weight-bold">Outbound</div>
+                                        <div class="text-success font-weight-bold">Total Pengadaan TeckMarket</div>
                                     </div>
                                     <div class="d-flex justify-content-between mb-3">
                                         <div class="font-weight-medium">Current</div>
                                         <div class="text-muted">458.77M</div>
                                     </div>
                                     <div class="d-flex justify-content-between mb-3">
-                                        <div class="font-weight-medium">Average</div>
+                                        <div class "font-weight-medium">Average</div>
                                         <div class="text-muted">1.45K</div>
                                     </div>
                                     <div class="d-flex justify-content-between mb-3">
                                         <div class="font-weight-medium">Maximum</div>
                                         <div class="text-muted">15.50K</div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="font-weight-medium">60th %</div>
-                                        <div class="text-muted">45.5</div>
                                     </div>
                                 </div>
                             </div>
@@ -119,53 +112,51 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between">
-                            <h4 class="card-title mb-3">Sessions by Channel</h4>
+                            <h4 class="card-title mb-3">Pegawai Analytics</h4>
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="d-flex justify-content-between mb-4">
-                                            <div class="font-weight-medium">Empolyee Name</div>
-                                            <div class="font-weight-medium">This Month</div>
+                                            <div class="font-weight-medium">Nama</div>
+                                            <div class="font-weight-medium">Bulan</div>
                                         </div>
                                         <div class="d-flex justify-content-between mb-4">
-                                            <div class="text-secondary font-weight-medium">Connor Chandler
+                                            <div class="text-secondary font-weight-medium">Damar
                                             </div>
                                             <div class="small">$ 4909</div>
                                         </div>
                                         <div class="d-flex justify-content-between mb-4">
-                                            <div class="text-secondary font-weight-medium">Russell Floyd
+                                            <div class="text-secondary font-weight-medium">Andi
                                             </div>
                                             <div class="small">$857</div>
                                         </div>
                                         <div class="d-flex justify-content-between mb-4">
-                                            <div class="text-secondary font-weight-medium">Douglas White
+                                            <div class="text-secondary font-weight-medium">Akhsan
                                             </div>
                                             <div class="small">$612 </div>
                                         </div>
                                         <div class="d-flex justify-content-between mb-4">
-                                            <div class="text-secondary font-weight-medium">Alta Fletcher
+                                            <div class="text-secondary font-weight-medium">Fairnanda
                                             </div>
                                             <div class="small">$233</div>
                                         </div>
                                         <div class="d-flex justify-content-between mb-4">
-                                            <div class="text-secondary font-weight-medium">Marguerite
-                                                Pearson</div>
+                                            <div class="text-secondary font-weight-medium">Yahya</div>
                                             <div class="small">$233</div>
                                         </div>
                                         <div class="d-flex justify-content-between mb-4">
-                                            <div class="text-secondary font-weight-medium">Leonard
-                                                Gutierrez</div>
+                                            <div class="text-secondary font-weight-medium">Rizki</div>
                                             <div class="small">$35</div>
                                         </div>
                                         <div class="d-flex justify-content-between mb-4">
-                                            <div class="text-secondary font-weight-medium">Helen Benson
+                                            <div class="text-secondary font-weight-medium">Rifqi
                                             </div>
                                             <div class="small">$43</div>
                                         </div>
                                         <div class="d-flex justify-content-between">
-                                            <div class="text-secondary font-weight-medium">Helen Benson
+                                            <div class="text-secondary font-weight-medium">Rafi
                                             </div>
                                             <div class="small">$43</div>
                                         </div>
@@ -180,7 +171,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between">
-                            <h4 class="card-title mb-3">Sales Analytics</h4>
+                            <h4 class="card-title mb-3">Penjualan Analytics</h4>
                             <button type="button" class="btn btn-sm btn-light">Month</button>
                         </div>
                         <div class="row">
@@ -201,7 +192,10 @@
                                         <h2 class="text-warning mb-1 font-weight-bold">1,542</h2>
                                     </div>
                                 </div>
-                                <canvas id="salesanalyticChart"></canvas>
+                                <div class="chart-container mt-4" style="text-align: center">
+                                    <img src="images/chart-batang.png" alt="logo" class="chart-analiytics-batang"
+                                        style="width: 100%; height: auto;">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -211,11 +205,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-wrap justify-content-between">
-                            <h4 class="card-title mb-3">Sale Analysis Trend</h4>
+                            <h4 class="card-title mb-3">Penjualan Analysis Trend</h4>
                         </div>
                         <div class="mt-2">
                             <div class="d-flex justify-content-between">
-                                <small>Order Value</small>
+                                <small>MotherBoard</small>
                                 <small>155.5%</small>
                             </div>
                             <div class="progress progress-md  mt-2">
@@ -225,7 +219,7 @@
                         </div>
                         <div class="mt-4">
                             <div class="d-flex justify-content-between">
-                                <small>Total Products</small>
+                                <small>Ram Series 3000</small>
                                 <small>238.2%</small>
                             </div>
                             <div class="progress progress-md  mt-2">
@@ -235,7 +229,7 @@
                         </div>
                         <div class="mt-4 mb-5">
                             <div class="d-flex justify-content-between">
-                                <small>Quantity</small>
+                                <small>Ram Series 4500</small>
                                 <small>23.30%</small>
                             </div>
                             <div class="progress progress-md mt-2">
@@ -244,164 +238,6 @@
                             </div>
                         </div>
                         <canvas id="salesTopChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-8 d-flex grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap justify-content-between">
-                            <h4 class="card-title mb-3">Project status</h4>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex">
-                                                <img class="img-sm rounded-circle mb-md-0 mr-2"
-                                                    src="images/faces/face30.png" alt="profile image">
-                                                <div>
-                                                    <div> Company</div>
-                                                    <div class="font-weight-bold mt-1">volkswagen</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            Budget
-                                            <div class="font-weight-bold  mt-1">$2322 </div>
-                                        </td>
-                                        <td>
-                                            Status
-                                            <div class="font-weight-bold text-success  mt-1">88% </div>
-                                        </td>
-                                        <td>
-                                            Deadline
-                                            <div class="font-weight-bold  mt-1">07 Nov 2019</div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-secondary">edit
-                                                actions</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex">
-                                                <img class="img-sm rounded-circle mb-md-0 mr-2"
-                                                    src="images/faces/face31.png" alt="profile image">
-                                                <div>
-                                                    <div> Company</div>
-                                                    <div class="font-weight-bold  mt-1">Land Rover</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            Budget
-                                            <div class="font-weight-bold  mt-1">$12022 </div>
-                                        </td>
-                                        <td>
-                                            Status
-                                            <div class="font-weight-bold text-success  mt-1">70% </div>
-                                        </td>
-                                        <td>
-                                            Deadline
-                                            <div class="font-weight-bold  mt-1">08 Nov 2019</div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-secondary">edit
-                                                actions</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex">
-                                                <img class="img-sm rounded-circle mb-md-0 mr-2"
-                                                    src="images/faces/face32.png" alt="profile image">
-                                                <div>
-                                                    <div> Company</div>
-                                                    <div class="font-weight-bold  mt-1">Bentley </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            Budget
-                                            <div class="font-weight-bold  mt-1">$8,725</div>
-                                        </td>
-                                        <td>
-                                            Status
-                                            <div class="font-weight-bold text-success  mt-1">87% </div>
-                                        </td>
-                                        <td>
-                                            Deadline
-                                            <div class="font-weight-bold  mt-1">11 Jun 2019</div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-secondary">edit
-                                                actions</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex">
-                                                <img class="img-sm rounded-circle mb-md-0 mr-2"
-                                                    src="images/faces/face33.png" alt="profile image">
-                                                <div>
-                                                    <div> Company</div>
-                                                    <div class="font-weight-bold  mt-1">Morgan </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            Budget
-                                            <div class="font-weight-bold  mt-1">$5,220 </div>
-                                        </td>
-                                        <td>
-                                            Status
-                                            <div class="font-weight-bold text-success  mt-1">65% </div>
-                                        </td>
-                                        <td>
-                                            Deadline
-                                            <div class="font-weight-bold  mt-1">26 Oct 2019</div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-secondary">edit
-                                                actions</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex">
-                                                <img class="img-sm rounded-circle mb-md-0 mr-2"
-                                                    src="images/faces/face34.png" alt="profile image">
-                                                <div>
-                                                    <div> Company</div>
-                                                    <div class="font-weight-bold  mt-1">volkswagen</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            Budget
-                                            <div class="font-weight-bold  mt-1">$2322 </div>
-                                        </td>
-                                        <td>
-                                            Status
-                                            <div class="font-weight-bold text-success mt-1">88% </div>
-                                        </td>
-                                        <td>
-                                            Deadline
-                                            <div class="font-weight-bold  mt-1">07 Nov 2019</div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-secondary">edit
-                                                actions</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </div>
