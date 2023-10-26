@@ -7,84 +7,138 @@ use Illuminate\Support\Facades\DB;
 
 class BarangController extends Controller
 {
-    // Menampilkan semua data barang beserta satuan
     public function index()
     {
-        $barang = DB::table('barang')
-            ->select('barang.idbarang', 'barang.jenis', 'barang.nama', 'barang.harga', 'satuan.nama_satuan')
-            ->join('satuan', 'barang.idsatuan', '=', 'satuan.idsatuan')
-            ->where('barang.status_aktif', 1) // Hanya tampilkan yang belum dihapus
-            ->get();
+        $barang = DB::select('SELECT b.*, s.nama_satuan
+                            FROM barang b
+                            JOIN satuan s ON b.idsatuan = s.idsatuan
+                            WHERE b.status_aktif = ?', [1]);
 
-        return view('pages.admins.barang', compact('barang'));
+        $satuan = DB::select('SELECT *
+                            FROM satuan
+                            WHERE status_aktif = ?', [1]);
+
+        return view('pages.admins.barang', [
+            'barang' => $barang,
+            'satuan' => $satuan,
+            'title' => 'Barang'
+        ]);
     }
 
-    // Menampilkan form untuk membuat data baru
-    public function create()
+    public function create(Request $request)
     {
-        $satuan = DB::table('satuan')
-            ->where('status_aktif', 1)
-            ->get();
+        $jenis = $request->input('jenis');
+        $nama = $request->input('nama');
+        $idsatuan = $request->input('idsatuan');
+        $harga = $request->input('harga');
 
-        return view('barang.create', compact('satuan'));
+        // Insert data ke dalam tabel "barang" dengan menggunakan SQL native
+        $newBarang = DB::insert('INSERT INTO barang (jenis, nama, idsatuan, harga, status_aktif)
+                                VALUES (?, ?, ?, ?, 1)', [$jenis, $nama, $idsatuan, $harga]);
+
+        if ($newBarang) {
+            // Ambil data barang yang baru saja dibuat
+            $barangData = DB::select('SELECT *
+                                    FROM barang
+                                    WHERE nama = ? LIMIT 1', [$nama]);
+
+            if (!empty($barangData)) {
+                return response()->json($barangData[0]);
+            } else {
+                return response()->json(['error' => 'Gagal menambahkan barang.']);
+            }
+        } else {
+            return response()->json(['error' => 'Gagal menambahkan barang.']);
+        }
     }
 
-    // Menyimpan data baru ke database
-    public function store(Request $request)
+    public function update(Request $request, $idbarang)
     {
-        $data = [
-            'jenis' => $request->jenis,
-            'nama' => $request->nama,
-            'idsatuan' => $request->idsatuan,
-            'harga' => $request->harga,
+        // Validasi input dari form
+        $request->validate([
+            'edit_jenis' => 'required',
+            'edit_nama' => 'required',
+            'edit_idsatuan' => 'required',
+            'edit_harga' => 'required'
+        ]);
+
+        $jenis = $request->input('edit_jenis');
+        $nama = $request->input('edit_nama');
+        $idsatuan = $request->input('edit_idsatuan');
+        $harga = $request->input('edit_harga');
+
+        // Perbarui data dalam tabel "barang" menggunakan query native
+        $query = "UPDATE barang
+                SET jenis = :jenis, nama = :nama, idsatuan = :idsatuan, harga = :harga
+                WHERE idbarang = :idbarang AND status_aktif = 1";
+
+        $bindings = [
+            'jenis' => $jenis,
+            'nama' => $nama,
+            'idsatuan' => $idsatuan,
+            'harga' => $harga,
+            'idbarang' => $idbarang,
         ];
 
-        DB::table('barang')
-        ->insert($data);
+        $affectedRows = DB::update($query, $bindings);
 
-        return redirect()->route('barang.index')->with('success', 'Data barang berhasil disimpan.');
+        if ($affectedRows > 0) {
+            // Jika pembaruan berhasil, dapatkan data yang diperbarui
+            $barang = DB::select('SELECT b.idbarang, b.jenis, b.nama, s.nama_satuan
+                            FROM barang b
+                            JOIN satuan s ON b.idsatuan = s.idsatuan
+                            WHERE b.idbarang = ? LIMIT 1', [$idbarang]);
+
+            if (!empty($barang)) {
+                return response()->json([
+                    'idbarang' => $barang[0]->idbarang,
+                    'jenis' => $barang[0]->jenis,
+                    'nama' => $barang[0]->nama,
+                    'nama_satuan' => $barang[0]->nama_satuan,
+                ]);
+            } else {
+                return response()->json(['error' => 'Gagal memperbarui barang. Silakan coba lagi.']);
+            }
+        } else {
+            return response()->json(['error' => 'Gagal memperbarui barang. Silakan coba lagi.']);
+        }
     }
 
-    // Menampilkan form untuk mengedit data
-    public function edit($id)
+    public function softDelete($idbarang)
     {
-        $barang = DB::table('barang')
-            ->where('idbarang', $id)
-            ->where('status_aktif', 1)
-            ->first();
+        // Perbarui status_aktif menjadi 0 (tidak aktif) untuk barang dengan id tertentu menggunakan kueri langsung
+        $affectedRows = DB::update('UPDATE barang
+                                    SET status_aktif = 0
+                                    WHERE idbarang = ?', [$idbarang]);
 
-        $satuan = DB::table('satuan')
-            ->where('status_aktif', 1)
-            ->get();
-
-        return view('barang.edit', compact('barang', 'satuan'));
+        if ($affectedRows > 0) {
+            return response()->json(['message' => 'Barang berhasil dihapus']);
+        } else {
+            return response()->json(['error' => 'Gagal menghapus barang']);
+        }
     }
 
-    // Memperbarui data di database
-    public function update(Request $request, $id)
+    public function getSoftDeletedBarang()
     {
-        $data = [
-            'jenis' => $request->jenis,
-            'nama' => $request->nama,
-            'idsatuan' => $request->idsatuan,
-            'harga' => $request->harga,
-        ];
-
-        DB::table('barang')
-            ->where('idbarang', $id)
-            ->where('status_aktif', 1)
-            ->update($data);
-
-        return redirect()->route('barang.index')->with('success', 'Data barang berhasil diperbarui.');
+        // Ambil data untuk barang yang telah dihapus secara lunak (status_aktif = 0)
+        $softDeletedBarang = DB::select('SELECT b.idbarang, b.jenis, b.nama, s.nama_satuan
+                                    FROM barang b
+                                    JOIN satuan s ON b.idsatuan = s.idsatuan
+                                    WHERE b.status_aktif = ?', [0]);
+        return response()->json($softDeletedBarang);
     }
 
-    // Melakukan soft delete pada data
-    public function softDelete($id)
+    public function restoreBarang($id)
     {
-        DB::table('barang')
-            ->where('idbarang', $id)
-            ->update(['status_aktif' => 0]);
+        // Setel status_aktif barang kembali menjadi 1 (aktif)
+        $affectedRows = DB::update('UPDATE barang
+                                SET status_aktif = ?
+                                WHERE idbarang = ?', [1, $id]);
 
-        return redirect()->route('barang.index')->with('success', 'Data barang berhasil dihapus.');
+        if ($affectedRows > 0) {
+            return response()->json(['message' => 'Barang berhasil dipulihkan.']);
+        } else {
+            return response()->json(['error' => 'Gagal memulihkan barang.']);
+        }
     }
 }

@@ -63,9 +63,8 @@ Route::put('/restore-users/{id}', [UserController::class, 'restoreUser'])->name(
 
 // Page Barang Routes
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
-Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
-Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
-Route::get('/barang/{idbarang}/edit', [BarangController::class, 'edit'])->name('barang.edit');
+Route::post('/barang', [BarangController::class, 'create'])->name('barang.create');
 Route::put('/barang/{idbarang}', [BarangController::class, 'update'])->name('barang.update');
 Route::put('/barang/{idbarang}/softdelete', [BarangController::class, 'softDelete'])->name('barang.softdelete');
-
+Route::get('/soft-deleted-barang', [BarangController::class, 'getSoftDeletedBarang'])->name('barang.getsoftdeleted');
+Route::put('/restore-barang/{id}', [BarangController::class, 'restoreBarang'])->name('barang.restore');

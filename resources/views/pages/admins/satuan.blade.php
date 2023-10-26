@@ -25,12 +25,11 @@
                             <form id="satuanForm" action="{{ route('satuans.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group d-flex">
-                                    <label for="nama_satuan" class="mr-2">Nama Satuan</label>
+                                    <label for="nama_satuan" class="mr-2">Satuan</label>
                                     <input type="text" class="form-control bold" id="nama_satuan" name="nama_satuan"
                                         style="width: 60%; height: 20px;">
-                                    <button type="submit" class="btn btn-success btn-sm ml-4" style="width: auto;">
-                                        Simpan
-                                    </button>
+                                    <button type="submit" class="btn btn-success btn-sm ml-4"
+                                        style="width: auto;">Simpan</button>
                                 </div>
                             </form>
                         </div>
@@ -42,12 +41,12 @@
 
                             <table class="table table-bordered table-sm">
                                 <thead>
-                                    <tr>
+                                    <tr style="text-align: center;">
                                         <th>Nama Satuan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="softDeletedSatuans">
+                                <tbody id="softDeletedSatuans" style="text-align: center;">
                                     <!-- Isi akan ditambahkan melalui JavaScript -->
                                 </tbody>
                             </table>
@@ -61,7 +60,7 @@
                 <div class="table-responsive pt-3" style="max-width: 70%;">
                     <table class="table table-bordered">
                         <thead>
-                            <tr>
+                            <tr style="text-align: center;">
                                 <th>ID</th>
                                 <th>Nama Satuan</th>
                                 <th>Status Aktif</th>
@@ -71,7 +70,7 @@
                         <tbody>
                             {{-- menampilkan isi tabel satuan --}}
                             @foreach ($satuans as $satuan)
-                                <tr>
+                                <tr style="text-align: center;">
                                     <td>{{ $satuan->idsatuan }}</td>
                                     <td>{{ $satuan->nama_satuan }}</td>
                                     <td>{{ $satuan->status_aktif == 1 ? 'Aktif' : 'Non-Aktif' }}</td>
@@ -160,6 +159,7 @@
                             '" class="btn btn-danger btn-sm deleteSatuan"><i class="typcn typcn-trash"></i> Hapus</button>';
                         newRow += '</td></tr>';
                         $('table tbody').append(newRow);
+                        location.reload();
                     }
                 },
                 error: function(xhr, status, error) {
@@ -262,7 +262,7 @@
                             var row = '<tr>' +
                                 '<td>' + satuan.nama_satuan + '</td>' +
                                 '<td><button data-id="' + satuan.idsatuan +
-                                '" class="btn btn-sm btn-success restoreSatuan">Restore</button></td>' +
+                                '" class="btn btn-sm btn-success restoreSatuan">Pulihkan</button></td>' +
                                 '</tr>';
                             $('#softDeletedSatuans').append(row);
                         });
@@ -276,7 +276,8 @@
                 error: function(xhr, status, error) {
                     console.error(error);
                     alert(
-                        'Failed to retrieve soft-deleted Satuan entries. Please try again.');
+                        'Failed to retrieve soft-deleted Satuan entries. Please try again.'
+                        );
                 }
             });
         });

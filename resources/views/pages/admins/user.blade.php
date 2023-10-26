@@ -55,13 +55,13 @@
                             <h3 class="card-title" id="historyDeleteModalLabel">History Hapus Supplier</h3>
                             <table class="table table-bordered table-sm">
                                 <thead>
-                                    <tr>
+                                    <tr style="text-align: center;">
                                         <th>Nama User</th>
                                         <th>Role</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="softDeletedUsers">
+                                <tbody id="softDeletedUsers" style="text-align: center;">
 
                                 </tbody>
                             </table>
@@ -75,7 +75,7 @@
                 <div class="table-responsive pt-3" style="max-width: 80%;">
                     <table class="table table-bordered">
                         <thead>
-                            <tr>
+                            <tr style="text-align: center;">
                                 <th>ID</th>
                                 <th>Nama User</th>
                                 <th>Role</th>
@@ -87,10 +87,10 @@
                             {{-- Menampilkan data user --}}
                             @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $user->iduser }}</td>
+                                    <td style="text-align: center;">{{ $user->iduser }}</td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->nama_role }}</td>
-                                    <td>{{ $user->status_aktif == 1 ? 'Aktif' : 'Non-Aktif' }}</td>
+                                    <td style="text-align: center;">{{ $user->status_aktif == 1 ? 'Aktif' : 'Non-Aktif' }}</td>
                                     <td style="text-align: center;">
                                         <button data-id="{{ $user->iduser }}" class="btn btn-warning btn-sm editUser">
                                             <i class="typcn typcn-pencil"></i> Edit
@@ -180,6 +180,7 @@
                             '" class="btn btn-danger btn-sm deleteUser"><i class="typcn typcn-trash"></i> Hapus</button>';
                         newRow += '</td></tr>';
                         $('table tbody').append(newRow);
+                        location.reload();
                     }
                 },
                 error: function(xhr, status, error) {

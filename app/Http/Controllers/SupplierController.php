@@ -15,7 +15,7 @@ class SupplierController extends Controller
                             WHERE status_aktif = ?', [1]);
         return view('pages.admins.suplier', [
             'suppliers' => $suppliers,
-            'title' => 'Suppliers'
+            'title' => 'Vendor'
         ]);
     }
 

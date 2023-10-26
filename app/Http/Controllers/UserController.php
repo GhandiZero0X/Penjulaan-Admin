@@ -10,7 +10,7 @@ class UserController extends Controller
     public function index()
     {
         $users = DB::select('SELECT u.*, r.nama_role
-                            FROM USER u
+                            FROM user u
                             JOIN role r ON u.idrole = r.idrole
                             WHERE u.status_aktif = ?', [1]);
 
@@ -75,10 +75,11 @@ class UserController extends Controller
         $idrole = $request->input('edit_idrole');
 
         // Ambil data peran (roles) dari database
-        $roles = DB::select('SELECT * FROM role WHERE status_aktif = ?', [1]);
+        $roles = DB::select('SELECT *
+                            FROM role WHERE status_aktif = ?', [1]);
 
         // Perbarui data dalam tabel "USER" menggunakan query native
-        $query = "UPDATE USER
+        $query = "UPDATE user
             SET username = :username, idrole = :idrole
             WHERE iduser = :iduser AND status_aktif = 1";
 
@@ -92,10 +93,10 @@ class UserController extends Controller
 
         if ($affectedRows > 0) {
             // Jika pembaruan berhasil, dapatkan data yang diperbarui
-            $user = DB::select('SELECT USER.iduser, USER.username, role.nama_role
-                            FROM USER
-                            JOIN role ON USER.idrole = role.idrole
-                            WHERE USER.iduser = ? LIMIT 1', [$iduser]);
+            $user = DB::select('SELECT u.iduser, u.username, r.nama_role
+                            FROM user u
+                            JOIN role r ON u.idrole = r.idrole
+                            WHERE u.iduser = ? LIMIT 1', [$iduser]);
 
             if (!empty($user)) {
                 return response()->json([
@@ -112,12 +113,10 @@ class UserController extends Controller
         }
     }
 
-
-
     public function softDelete($iduser)
     {
         // Perbarui status_aktif menjadi 0 (tidak aktif) untuk user dengan id tertentu menggunakan kueri langsung
-        $affectedRows = DB::update('UPDATE USER
+        $affectedRows = DB::update('UPDATE user
                                     SET status_aktif = 0
                                     WHERE iduser = ?', [$iduser]);
 
