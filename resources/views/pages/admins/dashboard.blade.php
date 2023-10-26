@@ -4,8 +4,8 @@
     <div class="content-wrapper">
         <div class="row">
             <div class="col-sm-6">
-                <h3 class="mb-0 font-weight-bold">Kenneth Osborne</h3>
-                <p>Your last login: 21h ago from newzealand.</p>
+                <h3 class="mb-0 font-weight-bold">Muhamad Ghandi Nur Setiawan</h3>
+                <p>Terakhir Login : 21 jam yang lalu</p>
             </div>
             <div class="col-sm-6">
                 <div class="d-flex align-items-center justify-content-md-end">
@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                                 <div class="chart-container mt-4">
-                                    <canvas id="ecommerceAnalytic"></canvas>
+                                    
                                 </div>
                             </div>
                             <div class="col-lg-3">

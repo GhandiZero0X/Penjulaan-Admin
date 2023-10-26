@@ -1,12 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\DashboardController;
+use Illuminate\Routing\Route as RoutingRoute;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +22,12 @@ use App\Http\Controllers\SupplierController;
 |
 */
 
-// Route beranda
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Page Auth Routes
+Route::get('/login', [LoginController::class, 'index'])->name('login.user');
+Route::get('/Register', [RegisterController::class, 'index'])->name('register.user');
 
 // Page Admin Routes
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Page Role Routes
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
