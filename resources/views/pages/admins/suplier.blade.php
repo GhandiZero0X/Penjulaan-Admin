@@ -4,11 +4,11 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Daftar Supplier</h4>
+                <h4 class="card-title">Daftar Vendor</h4>
                 <div class="row">
                     <div class="col-md-6">
                         <button id="addSupplierButton" class="btn btn-success btn-sm rounded">
-                            <i class="typcn typcn-plus"></i> Tambah Supplier
+                            <i class="typcn typcn-plus"></i> Tambah Vendor
                         </button>
                     </div>
                     <div class="col-md-6">
@@ -21,11 +21,11 @@
                     <div class="col-md-6">
                         <div class="card-body border p-3" id="createSupplierForm"
                             style="display: none; margin-top: 10px; background-color: #fffefe; border-radius: 5px;">
-                            <h3 class="card-title">Tambah Supplier Baru</h3>
+                            <h3 class="card-title">Tambah Vendor Baru</h3>
                             <form id="supplierForm" action="{{ route('suppliers.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group d-flex">
-                                    <label for="nama_supplier" class="mr-2">Nama Supplier</label>
+                                    <label for="nama_supplier" class="mr-2">Vendor</label>
                                     <input type="text" class="form-control bold" id="nama_supplier" name="nama_supplier"
                                         style="width: 60%; height: 20px;">
                                     <button type="submit" class="btn btn-success btn-sm ml-4" style="width: auto;">
@@ -43,15 +43,15 @@
                     <div class="col-md-6">
                         <div class="card-body border p-3" id="tampil-history-hapus"
                             style="display: none; margin-top: 10px; background-color: #fffefe; border-radius: 5px;">
-                            <h3 class="card-title" id="historyDeleteModalLabel">History Hapus Supplier</h3>
+                            <h3 class="card-title" id="historyDeleteModalLabel">History Hapus Vendor</h3>
                             <table class="table table-bordered table-sm">
-                                <thead>
+                                <thead style="text-align: center;">
                                     <tr>
                                         <th>Nama Supplier</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="softDeletedSuppliers">
+                                <tbody id="softDeletedSuppliers" style="text-align: center;">
                                     <!-- Content will be added via JavaScript -->
                                 </tbody>
                             </table>
@@ -65,7 +65,7 @@
                 <div class="table-responsive pt-3" style="max-width: 80%;">
                     <table class="table table-bordered">
                         <thead>
-                            <tr>
+                            <tr style="text-align: center;">
                                 <th>ID</th>
                                 <th>Nama Supplier</th>
                                 <th>Badan Hukum</th>
@@ -77,10 +77,10 @@
                             {{-- Display supplier table contents --}}
                             @foreach ($suppliers as $supplier)
                                 <tr>
-                                    <td>{{ $supplier->idvendor }}</td>
+                                    <td style="text-align: center;">{{ $supplier->idvendor }}</td>
                                     <td>{{ $supplier->nama_vendor }}</td>
                                     <td>{{ $supplier->badan_hukum }}</td>
-                                    <td>{{ $supplier->status_aktif == 1 ? 'Aktif' : 'Non-Aktif' }}</td>
+                                    <td style="text-align: center;">{{ $supplier->status_aktif == 1 ? 'Aktif' : 'Non-Aktif' }}</td>
                                     <td style="text-align: center;">
                                         <button href="javascript:void(0);" data-id="{{ $supplier->idvendor }}"
                                             class="btn btn-warning btn-sm mr-2 editSupplier">
@@ -165,6 +165,7 @@
                         newRow += '<button href="javascript:void(0);" data-id="' + response.idvendor + '" class="btn btn-danger btn-sm deleteSupplier"><i class="typcn typcn-trash"></i> Hapus</button>';
                         newRow += '</td></tr>';
                         $('table tbody').append(newRow);
+                        location.reload();
                     }
                 },
                 error: function(xhr, status, error) {

@@ -41,13 +41,13 @@
                             <h3 class="card-title" id="historyDeleteModalLabel">History Hapus Role</h3>
 
                             <table class="table table-bordered table-sm">
-                                <thead>
+                                <thead style="text-align: center;">
                                     <tr>
                                         <th>Nama Role</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="softDeletedRoles">
+                                <tbody id="softDeletedRoles" style="text-align: center;">
                                     <!-- Isi akan ditambahkan melalui JavaScript -->
                                 </tbody>
                             </table>
@@ -61,7 +61,7 @@
                 <div class="table-responsive pt-3" style="max-width: 70%;">
                     <table class="table table-bordered">
                         <thead>
-                            <tr>
+                            <tr style="text-align: center;">
                                 <th>ID</th>
                                 <th>Nama Role</th>
                                 <th>Status Aktif</th>
@@ -72,9 +72,9 @@
                             {{-- menampilkan isi tabel role --}}
                             @foreach ($roles as $role)
                                 <tr>
-                                    <td>{{ $role->idrole }}</td>
+                                    <td style="text-align: center;">{{ $role->idrole }}</td>
                                     <td>{{ $role->nama_role }}</td>
-                                    <td>{{ $role->status_aktif == 1 ? 'Aktif' : 'Non-Aktif' }}</td>
+                                    <td style="text-align: center;">{{ $role->status_aktif == 1 ? 'Aktif' : 'Non-Aktif' }}</td>
                                     <td style="text-align: center;">
                                         <button href="javascript:void(0);" data-id="{{ $role->idrole }}"
                                             class="btn btn-warning btn-sm mr-2 editRole">
@@ -162,6 +162,7 @@
                             '" class="btn btn-danger btn-sm deleteRole"><i class="typcn typcn-trash"></i> Hapus</a>';
                         newRow += '</td></tr>';
                         $('table tbody').append(newRow);
+                        location.reload();
                     }
                 },
                 error: function(xhr, status, error) {
