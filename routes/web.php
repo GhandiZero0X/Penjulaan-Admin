@@ -1,12 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BarangController;
-use App\Http\Controllers\VendorController;
+use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\DashboardController;
+use Illuminate\Routing\Route as RoutingRoute;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +22,12 @@ use App\Http\Controllers\VendorController;
 |
 */
 
-// Route beranda
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Page Auth Routes
+Route::get('/login', [LoginController::class, 'index'])->name('login.user');
+Route::get('/Register', [RegisterController::class, 'index'])->name('register.user');
 
 // Page Admin Routes
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Page Role Routes
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
@@ -43,13 +45,21 @@ Route::put('/satuans/{idsatuan}/softdelete', [SatuanController::class, 'softDele
 Route::get('/soft-deleted-satuans', [SatuanController::class, 'getSoftDeletedSatuans'])->name('satuans.getsoftdeleted');
 Route::put('/restore-satuan/{id}', [SatuanController::class, 'restoreSatuan'])->name('satuan.restore');
 
+// Page Vendor Routes
+Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+Route::post('/suppliers', [SupplierController::class, 'create'])->name('suppliers.store');
+Route::put('/suppliers/{idsupplier}', [SupplierController::class, 'update'])->name('suppliers.update');
+Route::put('/suppliers/{idsupplier}/softdelete', [SupplierController::class, 'softDelete'])->name('suppliers.softdelete');
+Route::get('/soft-deleted-suppliers', [SupplierController::class, 'getSoftDeletedSuppliers'])->name('suppliers.getsoftdeleted');
+Route::put('/restore-supplier/{id}', [SupplierController::class, 'restoreSupplier'])->name('supplier.restore');
+
 // Page User Routes
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
 Route::post('/users', [UserController::class, 'store'])->name('user.store');
-Route::get('/users/{iduser}/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::put('/users/{iduser}', [UserController::class, 'update'])->name('user.update');
 Route::put('/users/{iduser}/softdelete', [UserController::class, 'softDelete'])->name('user.softdelete');
+Route::get('/soft-deleted-users', [UserController::class, 'getSoftDeletedUsers'])->name('user.getsoftdeleted');
+Route::put('/restore-users/{id}', [SupplierController::class, 'restoreUser'])->name('user.restore');
 
 // Page Barang Routes
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
@@ -59,10 +69,3 @@ Route::get('/barang/{idbarang}/edit', [BarangController::class, 'edit'])->name('
 Route::put('/barang/{idbarang}', [BarangController::class, 'update'])->name('barang.update');
 Route::put('/barang/{idbarang}/softdelete', [BarangController::class, 'softDelete'])->name('barang.softdelete');
 
-// Page Vendor Routes
-Route::get('/vendors', [VendorController::class, 'index'])->name('vendor.index');
-Route::get('/vendors/create', [VendorController::class, 'create'])->name('vendor.create');
-Route::post('/vendors', [VendorController::class, 'store'])->name('vendor.store');
-Route::get('/vendors/{idvendor}/edit', [VendorController::class, 'edit'])->name('vendor.edit');
-Route::put('/vendors/{idvendor}', [VendorController::class, 'update'])->name('vendor.update');
-Route::put('/vendors/{idvendor}/softdelete', [VendorController::class, 'softDelete'])->name('vendor.softdelete');

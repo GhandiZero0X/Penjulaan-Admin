@@ -6,14 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title }} Tech Market</title>
+    <title>{{ $title }} TechMarket</title>
 
     <link rel="stylesheet" href="vendors/typicons.font/font/typicons.css">
     <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
 
     <link rel="stylesheet" href="css/vertical-layout-light/style.css">
 
-    <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="shortcut icon" href="images/Teck_Market.png" />
 </head>
 
 <body>

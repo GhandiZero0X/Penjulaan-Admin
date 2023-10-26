@@ -39,7 +39,8 @@ class BarangController extends Controller
             'harga' => $request->harga,
         ];
 
-        DB::table('barang')->insert($data);
+        DB::table('barang')
+        ->insert($data);
 
         return redirect()->route('barang.index')->with('success', 'Data barang berhasil disimpan.');
     }
