@@ -55,11 +55,11 @@ Route::put('/restore-supplier/{id}', [SupplierController::class, 'restoreSupplie
 
 // Page User Routes
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
-Route::post('/users', [UserController::class, 'store'])->name('user.store');
+Route::post('/users', [UserController::class, 'create'])->name('user.create');
 Route::put('/users/{iduser}', [UserController::class, 'update'])->name('user.update');
 Route::put('/users/{iduser}/softdelete', [UserController::class, 'softDelete'])->name('user.softdelete');
 Route::get('/soft-deleted-users', [UserController::class, 'getSoftDeletedUsers'])->name('user.getsoftdeleted');
-Route::put('/restore-users/{id}', [SupplierController::class, 'restoreUser'])->name('user.restore');
+Route::put('/restore-users/{id}', [UserController::class, 'restoreUser'])->name('user.restore');
 
 // Page Barang Routes
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
