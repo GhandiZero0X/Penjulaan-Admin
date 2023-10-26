@@ -7,8 +7,11 @@
                 <div class="row w-100 mx-0">
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                            <div class="brand-logo">
-                                <img src="../../images/logo.svg" alt="logo">
+                            <div class="brand-content" style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <img src="images/Teck_Market.png" alt="logo" class="brand-logo-image"
+                                    style="max-width: 40px; max-height: 50px; margin-right: 10px;" />
+                                <span class="brand-logo-text"
+                                    style="color: #D12027; font-weight: bold; font-size: 24px;">TeckMarket</span>
                             </div>
                             <h4>New here?</h4>
                             <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
@@ -18,22 +21,12 @@
                                         placeholder="Username">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1"
-                                        placeholder="Email">
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control form-control-lg" id="exampleFormControlSelect2">
-                                        <option>Country</option>
-                                        <option>United States of America</option>
-                                        <option>United Kingdom</option>
-                                        <option>India</option>
-                                        <option>Germany</option>
-                                        <option>Argentina</option>
-                                    </select>
+                                    <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
+                                        placeholder="Password">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
-                                        placeholder="Password">
+                                        placeholder="Konfirmasi Password">
                                 </div>
                                 <div class="mb-4">
                                     <div class="form-check">
@@ -45,10 +38,10 @@
                                 </div>
                                 <div class="mt-3">
                                     <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                                        href="../../index.html">SIGN UP</a>
+                                        href="{{ route('login.user') }}">SIGN UP</a>
                                 </div>
                                 <div class="text-center mt-4 font-weight-light">
-                                    Already have an account? <a href="login.html" class="text-primary">Login</a>
+                                    Already have an account? <a href="{{ route('login.user') }}" class="text-primary">Login</a>
                                 </div>
                             </form>
                         </div>

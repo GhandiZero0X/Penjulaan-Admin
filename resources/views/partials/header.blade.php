@@ -35,7 +35,7 @@
                     <span class="nav-profile-name">Muhamad Ghandi Nur Setiawan</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item">
+                    <a href="{{ route('login.user') }}" class="dropdown-item">
                         <i class="typcn typcn-power text-primary"></i>
                         Logout
                     </a>
