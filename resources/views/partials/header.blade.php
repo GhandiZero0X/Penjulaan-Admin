@@ -1,14 +1,14 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand" href="{{ route('dashboard') }}">
+        <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}">
             <div class="brand-content">
                 <img src="images/Teck_Market.png" alt="logo" class="brand-logo-image"
-                    style="max-width: 40px; max-height: 50px; margin-left: 30px;" />
+                    style="max-width: 35px; max-height: 50px; margin-left: 25px;" />
                 <span class="brand-logo-text" style="color: #D12027; font-weight: bold;">TeckMarket </span>
             </div>
         </a>
         <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}"><img src="images/Teck_Market.png"
-                alt="logo" /></a>
+                alt="logo" style="max-width: 35px; max-height: 40px;"/></a>
         <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button"
             data-toggle="minimize">
             <span class="typcn typcn-th-menu"></span>

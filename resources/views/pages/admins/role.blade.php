@@ -48,7 +48,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="softDeletedRoles" style="text-align: center;">
-                                    <!-- Isi akan ditambahkan melalui JavaScript -->
+                                    {{-- isinya memakai jquery yang di buat --}}
                                 </tbody>
                             </table>
 

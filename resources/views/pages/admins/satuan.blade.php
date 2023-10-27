@@ -47,7 +47,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="softDeletedSatuans" style="text-align: center;">
-                                    <!-- Isi akan ditambahkan melalui JavaScript -->
+                                    {{-- isinya memakai jquery yang di buat --}}
                                 </tbody>
                             </table>
 
@@ -68,7 +68,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- menampilkan isi tabel satuan --}}
                             @foreach ($satuans as $satuan)
                                 <tr style="text-align: center;">
                                     <td>{{ $satuan->idsatuan }}</td>
@@ -92,8 +91,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Form Edit Satuan -->
     <div class="card-body border p-3 " id="editSatuanFormRow" style="display: none;">
         <form id="editSatuanForm" action="" method="POST">
             @csrf
@@ -111,12 +108,10 @@
     </div>
 @endsection
 
-<!-- Include JavaScript library -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).ready(function() {
-        // Button for adding a new Satuan
         $('#addSatuanButton').click(function() {
             let btn = $('#addSatuanButton');
             let form = $('#createSatuanForm');
@@ -128,12 +123,9 @@
             }
         });
 
-        // Form submission for creating a new Satuan
         $('#satuanForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
-
-            // Send form data to the server using AJAX
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
@@ -169,14 +161,12 @@
             });
         });
 
-        // Delete Satuan
         $('.deleteSatuan').click(function() {
             var deleteButton = $(this);
             var satuanId = deleteButton.data('id');
 
             if (confirm('Are you sure you want to delete this Satuan?')) {
                 deleteButton.closest('tr').remove();
-
                 $.ajax({
                     url: '/satuans/' + satuanId + '/softdelete',
                     type: 'PUT',
@@ -194,7 +184,6 @@
             }
         });
 
-        // Edit Satuan
         $('.editSatuan').click(function() {
             var satuanId = $(this).data('id');
             var satuanName = $(this).closest('tr').find('td:nth-child(2)').text();
@@ -209,7 +198,6 @@
             $('#editSatuanFormRow').slideDown();
         });
 
-        // Cancel editing Satuan
         $('#cancelEditSatuan').click(function() {
             $('#editSatuanFormRow').slideUp(function() {
                 $(this).prev('tr').find('.editSatuan').show();
@@ -217,12 +205,10 @@
             });
         });
 
-        // Form submission for editing Satuan
         $('#editSatuanForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
             var satuanId = $('#edit_satuan_id').val();
-
             $.ajax({
                 url: '/satuans/' + satuanId,
                 type: 'PUT',
@@ -233,7 +219,6 @@
                         $(this).prev('tr').find('.editSatuan').show();
                         $(this).prev('tr').find('.deleteSatuan').show();
                     });
-
                     if (response.error) {
                         alert('Error: ' + response.error);
                     } else {
@@ -249,10 +234,8 @@
             });
         });
 
-        // View soft-deleted Satuan entries
         $('#historyDeleteButton').click(function() {
             $('#softDeletedSatuans').empty();
-
             $.ajax({
                 url: '/soft-deleted-satuans',
                 type: 'GET',
@@ -266,7 +249,6 @@
                                 '</tr>';
                             $('#softDeletedSatuans').append(row);
                         });
-
                         $('#softDeletedSatuans').slideDown();
                         $('#tampil-history-hapus').slideDown();
                     } else {
@@ -282,18 +264,15 @@
             });
         });
 
-        // Close the soft-deleted Satuan entries list
         $('#tampil-history-hapus .btn-secondary').click(function() {
             $('#softDeletedSatuans').slideUp();
             $('#tampil-history-hapus').slideUp();
         });
 
-        // Restore soft-deleted Satuan entry
         $(document).on('click', '.restoreSatuan', function() {
             var satuanId = $(this).data('id');
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
             $.ajax({
                 url: '{{ route('satuan.restore', ':id') }}'.replace(':id', satuanId),
                 type: 'PUT',

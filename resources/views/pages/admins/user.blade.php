@@ -1,7 +1,6 @@
 @extends('layouts.appAdmin')
 
 @section('content')
-    <!-- Bagian Tabel User -->
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -35,7 +34,6 @@
                                 <div class="form-group d-flex">
                                     <label for="idrole" class="mr-2">Role</label>
                                     <select class="form-control" id="idrole" name="idrole" style="width: 60%;">
-                                        {{-- Option dari daftar role --}}
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->idrole }}">{{ $role->nama_role }}</option>
                                         @endforeach
@@ -62,7 +60,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="softDeletedUsers" style="text-align: center;">
-
+                                    {{-- isinya memakai jquery yang di buat --}}
                                 </tbody>
                             </table>
                             <button type="button" class="btn btn-sm btn-secondary mt-2" data-dismiss="modal"
@@ -70,8 +68,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Tabel Daftar User -->
                 <div class="table-responsive pt-3" style="max-width: 80%;">
                     <table class="table table-bordered">
                         <thead>
@@ -84,7 +80,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- Menampilkan data user --}}
                             @foreach ($users as $user)
                                 <tr>
                                     <td style="text-align: center;">{{ $user->iduser }}</td>
@@ -107,8 +102,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Edit User Form -->
     <div class="card-body border p-3" id="editUserFormRow" style="display: none;">
         <form id="editUserForm" action="" method="POST">
             @csrf
@@ -121,7 +114,6 @@
             <div class="form-group">
                 <label for="edit_idrole">Role</label>
                 <select class="form-control" name="edit_idrole" id="edit_idrole">
-                    {{-- Option dari daftar role --}}
                     @foreach ($roles as $role)
                         <option value="{{ $role->idrole }}">{{ $role->nama_role }}</option>
                     @endforeach
@@ -138,7 +130,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Tombol "Tambah User" diklik
         $('#addUserButton').click(function() {
             let form = $('#createUserForm');
 
@@ -149,25 +140,20 @@
             }
         });
 
-        // Form "Create User" disubmit
         $('#userForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
-
-            // Kirim data form ke server melalui AJAX
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    // Sembunyikan form setelah data terkirim
                     $('#createUserForm').slideUp();
 
                     if (response.error) {
                         alert('Error: ' + response.error);
                     } else {
-                        // Tambahkan user baru ke tabel jika berhasil disimpan
                         var newRow = '<tr>';
                         newRow += '<td>' + response.iduser + '</td>';
                         newRow += '<td>' + response.username + '</td>';
@@ -190,7 +176,6 @@
             });
         });
 
-        // Delete User
         $('table').on('click', '.deleteUser', function() {
             var deleteButton = $(this);
             var userId = deleteButton.data('id');
@@ -215,7 +200,6 @@
             }
         });
 
-        // Edit User
         $('table').on('click', '.editUser', function() {
             var userId = $(this).data('id');
             var userName = $(this).closest('tr').find('td:nth-child(2)').text();
@@ -229,19 +213,16 @@
             $('#editUserFormRow').slideDown();
         });
 
-        // Cancel editing User
         $('#cancelEditUser').click(function() {
             $('#editUserFormRow').slideUp(function() {
                 $(this).prev('tr').find('.editUser').show();
             });
         });
 
-        // Form submission for editing User
         $('#editUserForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
             var userId = $('#edit_user_id').val();
-
             $.ajax({
                 url: '/users/' + userId,
                 type: 'PUT',
@@ -265,12 +246,8 @@
             });
         });
 
-        // History Hapus
         $('#historyDeleteButton').click(function() {
-            // Bersihkan daftar "softDeletedUsers" sebelum menambahkan yang baru
             $('#softDeletedUsers').empty();
-
-            // Ambil data user yang dihapus secara lunak dari server (misalnya melalui Ajax)
             $.ajax({
                 url: '/soft-deleted-users',
                 type: 'GET',
@@ -285,12 +262,8 @@
                                 '</tr>';
                             $('#softDeletedUsers').append(row);
                         });
-
-                        // Animasikan efek slide ke bawah
                         $('#softDeletedUsers').slideDown();
-
-                        // Aktifkan card dengan efek slide ke bawah
-                        $('#tampil-history-hapus').slideDown(); // Menampilkan card
+                        $('#tampil-history-hapus').slideDown();
                     } else {
                         alert('Tidak ada user yang dihapus secara lunak.');
                     }
@@ -302,30 +275,24 @@
             });
         });
 
-        // Menutup list history hapus user
         $('#tampil-history-hapus .btn-secondary').click(function() {
-            $('#softDeletedUsers').slideUp(); // Efek slide ke atas
-            $('#tampil-history-hapus').slideUp(); // Efek slide ke atas
+            $('#softDeletedUsers').slideUp();
+            $('#tampil-history-hapus').slideUp();
         });
 
-        // Update Pulihkan User
         $(document).on('click', '.restoreUser', function() {
             var userId = $(this).data('id');
 
-            // Mendapatkan _token CSRF dari meta-tag
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Lakukan pemulihan user (misalnya melalui Ajax) dengan menyertakan _token CSRF
             $.ajax({
                 url: '{{ route('user.restore', ':id') }}'.replace(':id', userId),
                 type: 'PUT',
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken // Sertakan _token CSRF dalam header
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 success: function(response) {
                     if (response.message) {
                         alert(response.message);
-                        // Refresh halaman setelah pemulihan berhasil
                         location.reload();
                     } else {
                         alert('Gagal memulihkan user.');

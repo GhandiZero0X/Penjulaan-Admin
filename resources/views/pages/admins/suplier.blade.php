@@ -52,7 +52,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="softDeletedSuppliers" style="text-align: center;">
-                                    <!-- Content will be added via JavaScript -->
+                                    {{-- isinya memakai jquery yang di buat --}}
                                 </tbody>
                             </table>
 
@@ -74,7 +74,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- Display supplier table contents --}}
                             @foreach ($suppliers as $supplier)
                                 <tr>
                                     <td style="text-align: center;">{{ $supplier->idvendor }}</td>
@@ -99,8 +98,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Edit Supplier Form -->
     <div class="card-body border p-3 " id="editSupplierFormRow" style="display: none;">
         <form id="editSupplierForm" action="" method="POST">
             @csrf
@@ -125,7 +122,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Button for adding a new Supplier
         $('#addSupplierButton').click(function() {
             let btn = $('#addSupplierButton');
             let form = $('#createSupplierForm');
@@ -137,12 +133,9 @@
             }
         });
 
-        // Form submission for creating a new Supplier
         $('#supplierForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
-
-            // Send form data to the server using AJAX
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
@@ -150,11 +143,9 @@
                 dataType: 'json',
                 success: function(response) {
                     $('#createSupplierForm').slideUp();
-
                     if (response.error) {
                         alert('Error: ' + response.error);
                     } else {
-                        // Add the new Supplier to the table if it was successfully saved
                         var newRow = '<tr>';
                         newRow += '<td>' + response.idvendor + '</td>';
                         newRow += '<td>' + response.nama_vendor + '</td>';
@@ -175,14 +166,12 @@
             });
         });
 
-        // Delete Supplier
         $('.deleteSupplier').click(function() {
             var deleteButton = $(this);
             var supplierId = deleteButton.data('id');
 
             if (confirm('Are you sure you want to delete this Supplier?')) {
                 deleteButton.closest('tr').remove();
-
                 $.ajax({
                     url: '/suppliers/' + supplierId + '/softdelete',
                     type: 'PUT',
@@ -200,7 +189,6 @@
             }
         });
 
-        // Edit Supplier
         $('.editSupplier').click(function() {
             var supplierId = $(this).data('id');
             var supplierName = $(this).closest('tr').find('td:nth-child(2)').text();
@@ -217,7 +205,6 @@
             $('#editSupplierFormRow').slideDown();
         });
 
-        // Cancel editing Supplier
         $('#cancelEditSupplier').click(function() {
             $('#editSupplierFormRow').slideUp(function() {
                 $(this).prev('tr').find('.editSupplier').show();
@@ -225,12 +212,10 @@
             });
         });
 
-        // Form submission for editing Supplier
         $('#editSupplierForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
             var supplierId = $('#edit_supplier_id').val();
-
             $.ajax({
                 url: '/suppliers/' + supplierId,
                 type: 'PUT',
@@ -256,10 +241,8 @@
             });
         });
 
-        // View soft-deleted Supplier entries
         $('#historyDeleteButton').click(function() {
             $('#softDeletedSuppliers').empty();
-
             $.ajax({
                 url: '/soft-deleted-suppliers',
                 type: 'GET',
@@ -268,7 +251,7 @@
                         response.forEach(function(supplier) {
                             var row = '<tr>' +
                                 '<td>' + supplier.nama_vendor + '</td>' +
-                                '<td><button data-id="' + supplier.idvendor + '" class="btn btn-sm btn-success restoreSupplier">Restore</button></td>' +
+                                '<td><button data-id="' + supplier.idvendor + '" class="btn btn-sm btn-success restoreSupplier">Pulihkan</button></td>' +
                                 '</tr>';
                             $('#softDeletedSuppliers').append(row);
                         });
@@ -286,18 +269,15 @@
             });
         });
 
-        // Close the soft-deleted Supplier entries list
         $('#tampil-history-hapus .btn-secondary').click(function() {
             $('#softDeletedSuppliers').slideUp();
             $('#tampil-history-hapus').slideUp();
         });
 
-        // Restore soft-deleted Supplier entry
         $(document).on('click', '.restoreSupplier', function() {
             var supplierId = $(this).data('id');
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
             $.ajax({
                 url: '{{ route('supplier.restore', ':id') }}'.replace(':id', supplierId),
                 type: 'PUT',

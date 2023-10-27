@@ -32,12 +32,10 @@ class BarangController extends Controller
         $idsatuan = $request->input('idsatuan');
         $harga = $request->input('harga');
 
-        // Insert data ke dalam tabel "barang" dengan menggunakan SQL native
         $newBarang = DB::insert('INSERT INTO barang (jenis, nama, idsatuan, harga, status_aktif)
                                 VALUES (?, ?, ?, ?, 1)', [$jenis, $nama, $idsatuan, $harga]);
 
         if ($newBarang) {
-            // Ambil data barang yang baru saja dibuat
             $barangData = DB::select('SELECT *
                                     FROM barang
                                     WHERE nama = ? LIMIT 1', [$nama]);
@@ -54,7 +52,6 @@ class BarangController extends Controller
 
     public function update(Request $request, $idbarang)
     {
-        // Validasi input dari form
         $request->validate([
             'edit_jenis' => 'required',
             'edit_nama' => 'required',
@@ -67,7 +64,6 @@ class BarangController extends Controller
         $idsatuan = $request->input('edit_idsatuan');
         $harga = $request->input('edit_harga');
 
-        // Perbarui data dalam tabel "barang" menggunakan query native
         $query = "UPDATE barang
                 SET jenis = :jenis, nama = :nama, idsatuan = :idsatuan, harga = :harga
                 WHERE idbarang = :idbarang AND status_aktif = 1";
@@ -83,7 +79,6 @@ class BarangController extends Controller
         $affectedRows = DB::update($query, $bindings);
 
         if ($affectedRows > 0) {
-            // Jika pembaruan berhasil, dapatkan data yang diperbarui
             $barang = DB::select('SELECT b.idbarang, b.jenis, b.nama, s.nama_satuan
                             FROM barang b
                             JOIN satuan s ON b.idsatuan = s.idsatuan
@@ -106,7 +101,6 @@ class BarangController extends Controller
 
     public function softDelete($idbarang)
     {
-        // Perbarui status_aktif menjadi 0 (tidak aktif) untuk barang dengan id tertentu menggunakan kueri langsung
         $affectedRows = DB::update('UPDATE barang
                                     SET status_aktif = 0
                                     WHERE idbarang = ?', [$idbarang]);
@@ -120,7 +114,6 @@ class BarangController extends Controller
 
     public function getSoftDeletedBarang()
     {
-        // Ambil data untuk barang yang telah dihapus secara lunak (status_aktif = 0)
         $softDeletedBarang = DB::select('SELECT b.idbarang, b.jenis, b.nama, s.nama_satuan
                                     FROM barang b
                                     JOIN satuan s ON b.idsatuan = s.idsatuan
@@ -130,7 +123,6 @@ class BarangController extends Controller
 
     public function restoreBarang($id)
     {
-        // Setel status_aktif barang kembali menjadi 1 (aktif)
         $affectedRows = DB::update('UPDATE barang
                                 SET status_aktif = ?
                                 WHERE idbarang = ?', [1, $id]);

@@ -1,7 +1,6 @@
 @extends('layouts.appAdmin')
 
 @section('content')
-    <!-- Bagian Tabel Barang -->
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -67,7 +66,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="softDeletedBarang" style="text-align: center;">
-
+                                    {{-- isinya memakai jquery yang di buat --}}
                                 </tbody>
                             </table>
                             <button type="button" class="btn btn-sm btn-secondary mt-2" data-dismiss="modal"
@@ -75,8 +74,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Tabel Daftar Barang -->
                 <div class="table-responsive pt-3" style="max-width: 90%;">
                     <table class="table table-bordered">
                         <thead>
@@ -91,7 +88,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- Menampilkan data barang --}}
                             @foreach ($barang as $item)
                                 <tr>
                                     <td style="text-align: center;">{{ $item->idbarang }}</td>
@@ -117,8 +113,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Edit Barang Form -->
     <div class="card-body border p-3" id="editBarangFormRow" style="display: none;">
         <form id="editBarangForm" action="" method="POST">
             @csrf
@@ -156,7 +150,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Tombol "Tambah Barang" diklik
         $('#addBarangButton').click(function() {
             let form = $('#createBarangForm');
 
@@ -167,25 +160,20 @@
             }
         });
 
-        // Form "Create Barang" disubmit
         $('#barangForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
-
-            // Kirim data form ke server melalui AJAX
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    // Sembunyikan form setelah data terkirim
                     $('#createBarangForm').slideUp();
 
                     if (response.error) {
                         alert('Error: ' + response.error);
                     } else {
-                        // Tambahkan barang baru ke tabel jika berhasil disimpan
                         var newRow = '<tr>';
                         newRow += '<td>' + response.idbarang + '</td>';
                         newRow += '<td>' + response.jenis + '</td>';
@@ -210,14 +198,12 @@
             });
         });
 
-        // Delete Barang
         $('table').on('click', '.deleteBarang', function() {
             var deleteButton = $(this);
             var barangId = deleteButton.data('id');
 
             if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
                 deleteButton.closest('tr').remove();
-
                 $.ajax({
                     url: '/barang/' + barangId + '/softdelete',
                     type: 'PUT',
@@ -235,7 +221,6 @@
             }
         });
 
-        // Edit Barang
         $('table').on('click', '.editBarang', function() {
             var barangId = $(this).data('id');
             var barangJenis = $(this).closest('tr').find('td:nth-child(2)').text();
@@ -255,19 +240,16 @@
             $('#editBarangFormRow').slideDown();
         });
 
-        // Batal mengedit Barang
         $('#cancelEditBarang').click(function() {
             $('#editBarangFormRow').slideUp(function() {
                 $(this).prev('tr').find('.editBarang').show();
             });
         });
 
-        // Form submission untuk mengedit Barang
         $('#editBarangForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
             var barangId = $('#edit_barang_id').val();
-
             $.ajax({
                 url: '/barang/' + barangId,
                 type: 'PUT',
@@ -291,12 +273,8 @@
             });
         });
 
-        // History Hapus
         $('#historyDeleteButton').click(function() {
-            // Bersihkan daftar "softDeletedBarang" sebelum menambahkan yang baru
             $('#softDeletedBarang').empty();
-
-            // Ambil data barang yang dihapus secara lunak dari server (misalnya melalui Ajax)
             $.ajax({
                 url: '/soft-deleted-barang',
                 type: 'GET',
@@ -311,12 +289,8 @@
                                 '</tr>';
                             $('#softDeletedBarang').append(row);
                         });
-
-                        // Animasikan efek slide ke bawah
                         $('#softDeletedBarang').slideDown();
-
-                        // Aktifkan card dengan efek slide ke bawah
-                        $('#tampil-history-hapus').slideDown(); // Menampilkan card
+                        $('#tampil-history-hapus').slideDown();
                     } else {
                         alert('Tidak ada barang yang dihapus secara lunak.');
                     }
@@ -328,30 +302,25 @@
             });
         });
 
-        // Menutup list history hapus barang
         $('#tampil-history-hapus .btn-secondary').click(function() {
-            $('#softDeletedBarang').slideUp(); // Efek slide ke atas
-            $('#tampil-history-hapus').slideUp(); // Efek slide ke atas
+            $('#softDeletedBarang').slideUp();
+            $('#tampil-history-hapus').slideUp();
         });
 
-        // Perbarui pulihkan Barang
         $(document).on('click', '.restoreBarang', function() {
             var barangId = $(this).data('id');
 
-            // Dapatkan _token CSRF dari meta-tag
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-            // Lakukan pemulihan barang (misalnya melalui Ajax) dengan menyertakan _token CSRF
             $.ajax({
                 url: '{{ route('barang.restore', ':id') }}'.replace(':id', barangId),
                 type: 'PUT',
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken // Sertakan _token CSRF dalam header
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 success: function(response) {
                     if (response.message) {
                         alert(response.message);
-                        // Segarkan halaman setelah pemulihan berhasil
                         location.reload();
                     } else {
                         alert('Gagal memulihkan barang.');

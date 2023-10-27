@@ -9,7 +9,6 @@ class SupplierController extends Controller
 {
     public function index()
     {
-        // Query native to fetch data
         $suppliers = DB::select('SELECT *
                             FROM vendor
                             WHERE status_aktif = ?', [1]);
@@ -22,9 +21,8 @@ class SupplierController extends Controller
     public function create(Request $request)
     {
         $supplierName = $request->input('nama_supplier');
-        $badanHukum = $request->input('badan_hukum'); // Add this line
+        $badanHukum = $request->input('badan_hukum');
 
-        // Check if a supplier with the same name already exists
         $existingSupplier = DB::select('SELECT *
                                 FROM vendor
                                 WHERE nama_vendor = ? LIMIT 1', [$supplierName]);
@@ -33,11 +31,9 @@ class SupplierController extends Controller
             return response()->json(['error' => 'A supplier with the same name already exists.']);
         }
 
-        // Insert data into the "vendor" table with the badan_hukum column
         $newSupplier = DB::insert('INSERT INTO vendor (nama_vendor, badan_hukum, status_aktif)
-                                VALUES (?, ?, 1)', [$supplierName, $badanHukum]); // Add $badanHukum here
+                                VALUES (?, ?, 1)', [$supplierName, $badanHukum]);
         if ($newSupplier) {
-            // Retrieve data for the newly created supplier
             $supplierData = DB::select('SELECT *
                                         FROM vendor
                                         WHERE nama_vendor = ? LIMIT 1', [$supplierName]);
@@ -54,15 +50,13 @@ class SupplierController extends Controller
     public function update(Request $request, $idsupplier)
     {
         $supplierName = $request->input('edit_nama_supplier');
-        $badanHukum = $request->input('edit_badan_hukum'); // Add this line
+        $badanHukum = $request->input('edit_badan_hukum');
 
-        // Update data in the "vendor" table using a raw query
         $affectedRows = DB::update('UPDATE vendor
                                 SET nama_vendor = ?, badan_hukum = ?
-                                WHERE idvendor = ? AND status_aktif = 1', [$supplierName, $badanHukum, $idsupplier]); // Add $badanHukum here
+                                WHERE idvendor = ? AND status_aktif = 1', [$supplierName, $badanHukum, $idsupplier]);
 
         if ($affectedRows > 0) {
-            // If the update was successful
             $supplierData = DB::select('SELECT *
                                     FROM vendor
                                     WHERE idvendor = ? LIMIT 1', [$idsupplier]);
@@ -79,7 +73,6 @@ class SupplierController extends Controller
 
     public function softDelete($idsupplier)
     {
-        // Update status_aktif to 0 (inactive) for the supplier with a specific id using a raw query
         $affectedRows = DB::update('UPDATE vendor
                                     SET status_aktif = 0
                                     WHERE idvendor = ?', [$idsupplier]);
@@ -93,7 +86,6 @@ class SupplierController extends Controller
 
     public function getSoftDeletedSuppliers()
     {
-        // Retrieve data for suppliers that are soft-deleted (status_aktif = 0)
         $softDeletedSuppliers = DB::select('SELECT *
                                         FROM vendor
                                         WHERE status_aktif = ?', [0]);
@@ -102,7 +94,6 @@ class SupplierController extends Controller
 
     public function restoreSupplier($id)
     {
-        // Set status_aktif of the supplier back to 1 (active)
         $affectedRows = DB::update('UPDATE vendor
                                     SET status_aktif = ?
                                     WHERE idvendor = ?', [1, $id]);

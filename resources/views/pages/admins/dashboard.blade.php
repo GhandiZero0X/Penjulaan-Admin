@@ -92,7 +92,7 @@
                                         <div class="text-muted">458.77M</div>
                                     </div>
                                     <div class="d-flex justify-content-between mb-3">
-                                        <div class "font-weight-medium">Average</div>
+                                        <div class="font-weight-medium">Average</div>
                                         <div class="text-muted">1.45K</div>
                                     </div>
                                     <div class="d-flex justify-content-between mb-3">
