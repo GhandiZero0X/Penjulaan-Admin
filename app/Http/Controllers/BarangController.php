@@ -11,7 +11,8 @@ class BarangController extends Controller
     {
         $barang = DB::select('SELECT b.*, s.nama_satuan
                             FROM barang b
-                            JOIN satuan s ON b.idsatuan = s.idsatuan
+                            JOIN satuan s
+                                ON b.idsatuan = s.idsatuan
                             WHERE b.status_aktif = ?', [1]);
 
         $satuan = DB::select('SELECT *
@@ -81,7 +82,8 @@ class BarangController extends Controller
         if ($affectedRows > 0) {
             $barang = DB::select('SELECT b.idbarang, b.jenis, b.nama, s.nama_satuan
                             FROM barang b
-                            JOIN satuan s ON b.idsatuan = s.idsatuan
+                            JOIN satuan s
+                                ON b.idsatuan = s.idsatuan
                             WHERE b.idbarang = ? LIMIT 1', [$idbarang]);
 
             if (!empty($barang)) {
@@ -116,7 +118,8 @@ class BarangController extends Controller
     {
         $softDeletedBarang = DB::select('SELECT b.idbarang, b.jenis, b.nama, s.nama_satuan
                                     FROM barang b
-                                    JOIN satuan s ON b.idsatuan = s.idsatuan
+                                    JOIN satuan s
+                                        ON b.idsatuan = s.idsatuan
                                     WHERE b.status_aktif = ?', [0]);
         return response()->json($softDeletedBarang);
     }

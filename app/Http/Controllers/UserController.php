@@ -11,7 +11,8 @@ class UserController extends Controller
     {
         $users = DB::select('SELECT u.*, r.nama_role
                             FROM user u
-                            JOIN role r ON u.idrole = r.idrole
+                            JOIN role r
+                                ON u.idrole = r.idrole
                             WHERE u.status_aktif = ?', [1]);
 
         $roles = DB::select('SELECT *
@@ -87,7 +88,8 @@ class UserController extends Controller
         if ($affectedRows > 0) {
             $user = DB::select('SELECT u.iduser, u.username, r.nama_role
                             FROM user u
-                            JOIN role r ON u.idrole = r.idrole
+                            JOIN role r
+                                ON u.idrole = r.idrole
                             WHERE u.iduser = ? LIMIT 1', [$iduser]);
 
             if (!empty($user)) {
@@ -122,7 +124,8 @@ class UserController extends Controller
     {
         $softDeletedUsers = DB::select('SELECT u.iduser, u.username, r.nama_role
                                     FROM user u
-                                    JOIN role r ON u.idrole = r.idrole
+                                    JOIN role r
+                                        ON u.idrole = r.idrole
                                     WHERE u.status_aktif = ?', [0]);
         return response()->json($softDeletedUsers);
     }
