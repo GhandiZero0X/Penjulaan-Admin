@@ -15,17 +15,18 @@
                             </div>
                             <h4>New here?</h4>
                             <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-                            <form class="pt-3">
+                            <form class="pt-3" method="POST" action="{{ route('registerSubmit.user') }}">
+                                @csrf
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-lg" id="exampleInputUsername1"
+                                    <input type="text" class="form-control form-control-lg" name="username"
                                         placeholder="Username">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
+                                    <input type="password" class="form-control form-control-lg" name="password"
                                         placeholder="Password">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
+                                    <input type="password" class="form-control form-control-lg" name="password_confirmation"
                                         placeholder="Konfirmasi Password">
                                 </div>
                                 <div class="mb-4">
@@ -37,11 +38,13 @@
                                     </div>
                                 </div>
                                 <div class="mt-3">
-                                    <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                                        href="{{ route('login.user') }}">SIGN UP</a>
+                                    <button type="submit"
+                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                                        style="background-color: #D12027">SIGN UP</button>
                                 </div>
                                 <div class="text-center mt-4 font-weight-light">
-                                    Already have an account? <a href="{{ route('login.user') }}" class="text-primary">Login</a>
+                                    Already have an account? <a href="{{ route('login.user') }}" class="text"
+                                        style="color: #D12027">Login</a>
                                 </div>
                             </form>
                         </div>

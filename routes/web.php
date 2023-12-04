@@ -9,6 +9,7 @@ use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeKasirController;
 use Illuminate\Routing\Route as RoutingRoute;
 
 /*
@@ -21,13 +22,23 @@ use Illuminate\Routing\Route as RoutingRoute;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Route::group(['middleware' => 'user'], function () {
+//     //
+// });
 
-// Page Auth Routes
+// Page Auth Routes Login
 Route::get('/login', [LoginController::class, 'index'])->name('login.user');
-Route::get('/Register', [RegisterController::class, 'index'])->name('register.user');
+Route::post('/Login/submit', [LoginController::class, 'submitLogin'])->name('loginSubmit.user');
 
-// Page Admin Routes
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+// Page Auth Routes Register
+Route::get('/Register', [RegisterController::class, 'index'])->name('register.user');
+Route::post('/Register/submit',[RegisterController::class, 'submitRegis'])->name('registerSubmit.user');
+
+// Page Dashboard Admin Routes
+Route::get('/Dashboard-admin', [DashboardController::class, 'index'])->name('dashboard');
+
+// Page Home Kasir Route
+Route::get('/Home-kasir', [HomeKasirController::class, 'index'])->name('home.Kasir');
 
 // Page Role Routes
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
