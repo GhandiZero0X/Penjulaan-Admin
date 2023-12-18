@@ -39,6 +39,7 @@ Route::get('/Dashboard-admin', [DashboardController::class, 'index'])->name('das
 
 // Page Home Kasir Route
 Route::get('/Home-kasir', [HomeKasirController::class, 'index'])->name('home.Kasir');
+Route::post('/Home-kasir/caribarang', [HomeKasirController::class, 'cariBarang'])->name('home.kasirCari');
 
 // Page Role Routes
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
