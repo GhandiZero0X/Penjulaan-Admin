@@ -10,6 +10,10 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeKasirController;
+use App\Http\Controllers\PenerimaanController;
+use App\Http\Controllers\PengadaanController;
+use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\ReturController;
 use Illuminate\Routing\Route as RoutingRoute;
 
 /*
@@ -80,3 +84,19 @@ Route::put('/barang/{idbarang}', [BarangController::class, 'update'])->name('bar
 Route::put('/barang/{idbarang}/softdelete', [BarangController::class, 'softDelete'])->name('barang.softdelete');
 Route::get('/soft-deleted-barang', [BarangController::class, 'getSoftDeletedBarang'])->name('barang.getsoftdeleted');
 Route::put('/restore-barang/{id}', [BarangController::class, 'restoreBarang'])->name('barang.restore');
+
+// Page Pengadaan Routes
+Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan.index');
+Route::post('/pengadaan', [PengadaanController::class, 'store'])->name('pengadaan.create');
+Route::put('/pengadaan/{$idpengadaan}/softdelete', [PengadaanController::class, 'softDelete'])->name('pengadaan.softdelete');
+Route::get('/pengadaan/deleted', [PengadaanController::class, 'getDeletedPengadaan'])->name('pengadaan.getsoftdeleted');
+Route::put('/restore-pengadaan/{id}', [PengadaanController::class, 'restorePengadaan'])->name('Pengadaan.restore');
+
+// Page Penerimaan Routes
+Route::get('/penerimaan', [PenerimaanController::class, 'index'])->name('penerimaan.index');
+
+// Page Retur Routes
+Route::get('/retur', [ReturController::class, 'index'])->name('retur.index');
+
+// Page Penjualan Routes
+Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
