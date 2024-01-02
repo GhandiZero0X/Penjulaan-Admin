@@ -54,6 +54,21 @@
                     <li class="nav-item"> <a class="nav-link" href="{{ route('suppliers.index') }}">Vendor</a></li>
                 </ul>
             </div>
+            <div class="collapse" id="tables">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('pengedaan.index') }}">Pengadaan Barang</a></li>
+                </ul>
+            </div>
+            <div class="collapse" id="tables">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('penerimaan.index') }}">Penerimaan Barang</a></li>
+                </ul>
+            </div>
+            <div class="collapse" id="tables">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('retur.index') }}">Retur Barang</a></li>
+                </ul>
+            </div>
         </li>
     </ul>
 </nav>

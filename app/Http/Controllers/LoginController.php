@@ -30,7 +30,7 @@ class LoginController extends Controller
             if ($user[0]->idrole == 1) {
                 return redirect()->route('dashboard');
             } elseif ($user[0]->idrole == 2) {
-                return redirect()->route('home.Kasir');
+                return redirect()->route('penjualan.Kasir');
             }
         }
 
