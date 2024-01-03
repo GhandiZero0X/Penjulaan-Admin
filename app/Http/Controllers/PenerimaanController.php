@@ -41,4 +41,34 @@ class PenerimaanController extends Controller
         // You can return a response if needed
         return redirect()->route('penerimaan.index')->with('success', 'Barang diterima.');
     }
+
+    public function indexDetail($idpenerimaan)
+    {
+        // Query raw untuk mendapatkan data penerimaan berdasarkan idpenerimaan
+        $detailPenerimaan = DB::select("SELECT p.*, u.username
+                                FROM penerimaan p
+                                JOIN user u ON p.iduser = u.iduser
+                                WHERE p.idpenerimaan = :idpenerimaan
+                                LIMIT 1", ['idpenerimaan' => $idpenerimaan]);
+
+        // Query raw untuk mendapatkan detail barang berdasarkan idpenerimaan
+        $detailBarang = DB::select("SELECT dp.iddetail_penerimaan, b.nama as nama_barang, dp.jumlah_terima, dp.harga_satuan_terima, dp.sub_total_terima
+                                FROM detail_penerimaan dp
+                                JOIN barang b ON dp.barang_idbarang = b.idbarang
+                                WHERE dp.idpenerimaan = :idpenerimaan", ['idpenerimaan' => $idpenerimaan]);
+
+        // Mengambil data pertama dari hasil query
+        $detailPenerimaan = count($detailPenerimaan) > 0 ? $detailPenerimaan[0] : null;
+
+        // Query raw untuk mendapatkan daftar barang (contoh, sesuaikan dengan struktur tabel dan kolom)
+        $barangs = DB::select("SELECT idbarang, nama
+                        FROM barang");
+
+        return view('pages.admins.detail_penerimaan', [
+            'title' => 'Detail Penerimaan Barang',
+            'detailPenerimaan' => $detailPenerimaan,
+            'detailBarang' => $detailBarang,
+            'barangs' => $barangs,
+        ]);
+    }
 }

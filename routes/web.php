@@ -97,6 +97,8 @@ Route::put('/restore-pengadaan/{id}', [PengadaanController::class, 'restorePenga
 // Page Penerimaan Routes
 Route::get('/penerimaan', [PenerimaanController::class, 'index'])->name('penerimaan.index');
 Route::post('/penerimaan-barang', [PenerimaanController::class, 'store'])->name('penerimaan.barang');
+Route::get('/penerimaan/{idpenerimaan}/detail', [PenerimaanController::class, 'indexDetail'])->name('penerimaan.detail.index');
+
 
 // Page Retur Routes
 Route::get('/retur', [ReturController::class, 'index'])->name('retur.index');
