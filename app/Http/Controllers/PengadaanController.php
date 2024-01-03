@@ -50,27 +50,27 @@ class PengadaanController extends Controller
         return redirect()->route('pengadaan.index')->with('success', 'Pengadaan berhasil ditambahkan');
     }
 
-    public function softDelete($idpengadaan)
-    {
-        // Lakukan operasi penghapusan pengadaan berdasarkan ID
-        DB::select('CALL hapus_pengadaan(?)', [$idpengadaan]);
+    // public function softDelete($idpengadaan)
+    // {
+    //     // Lakukan operasi penghapusan pengadaan berdasarkan ID
+    //     DB::select('CALL hapus_pengadaan(?)', [$idpengadaan]);
 
-        return redirect()->route('pengadaan.index')->with('success', 'Pengadaan berhasil dihapus');
-    }
+    //     return redirect()->route('pengadaan.index')->with('success', 'Pengadaan berhasil dihapus');
+    // }
 
-    public function getDeletedPengadaan()
-    {
-        $deletedPengadaan = DB::table('v_pengadaan_deleted')->get();
+    // public function getDeletedPengadaan()
+    // {
+    //     $deletedPengadaan = DB::table('v_pengadaan_deleted')->get();
 
-        return response()->json($deletedPengadaan);
-    }
+    //     return response()->json($deletedPengadaan);
+    // }
 
-    public function restorePengadaan($id)
-    {
-        DB::select('CALL restore_pengadaan(?)', [$id]);
+    // public function restorePengadaan($id)
+    // {
+    //     DB::select('CALL restore_pengadaan(?)', [$id]);
 
-        return redirect()->route('pengadaan.index')->with('success', 'Pengadaan berhasil dipulihkan');
-    }
+    //     return redirect()->route('pengadaan.index')->with('success', 'Pengadaan berhasil dipulihkan');
+    // }
 
     public function indexDetail($idpengadaan)
     {

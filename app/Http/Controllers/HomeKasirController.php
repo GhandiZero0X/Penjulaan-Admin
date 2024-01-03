@@ -10,7 +10,7 @@ class HomeKasirController extends Controller
 {
     public function index()
     {
-        return view('pages.users.homekasir', [
+        return view('pages.users.penjualan', [
             'title' => 'Home Kasir'
         ]);
     }

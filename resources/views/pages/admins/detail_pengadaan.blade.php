@@ -44,11 +44,6 @@
                             <i class="typcn typcn-plus"></i> Tambah Pengadaan
                         </button>
                     </div>
-                    <div class="col-md-6">
-                        <button id="historyDeleteButton" class="btn btn-danger btn-sm rounded float-right">
-                            <i class="typcn typcn-history"></i> History Hapus
-                        </button>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
