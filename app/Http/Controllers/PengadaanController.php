@@ -66,4 +66,60 @@ class PengadaanController extends Controller
 
         return redirect()->route('pengadaan.index')->with('success', 'Pengadaan berhasil dipulihkan');
     }
+
+    public function indexDetail($idpengadaan)
+    {
+        // Query raw untuk mendapatkan data pengadaan berdasarkan idpengadaan
+        $detailPengadaan = DB::select("SELECT p.*, u.username, v.nama_vendor
+                                    FROM pengadaan p
+                                    JOIN user u ON p.user_iduser = u.iduser
+                                    JOIN vendor v ON p.vendor_idvendor = v.idvendor
+                                    WHERE p.idpengadaan = :idpengadaan
+                                    LIMIT 1", ['idpengadaan' => $idpengadaan]);
+
+        // Query raw untuk mendapatkan detail barang berdasarkan idpengadaan
+        $detailBarang = DB::select("SELECT dp.iddetail_pengadaan, b.nama as nama_barang, dp.jumlah, dp.harga_satuan, dp.sub_total
+                                    FROM detail_pengadaan dp
+                                    JOIN barang b ON dp.idbarang = b.idbarang
+                                    WHERE dp.idpengadaan = :idpengadaan", ['idpengadaan' => $idpengadaan]);
+
+        // Mengambil data pertama dari hasil query
+        $detailPengadaan = count($detailPengadaan) > 0 ? $detailPengadaan[0] : null;
+
+        // Query raw untuk mendapatkan daftar barang (contoh, sesuaikan dengan struktur tabel dan kolom)
+        $barangs = DB::select("SELECT idbarang, nama
+                            FROM barang");
+
+        return view('pages.admins.detail_pengadaan', [
+            'title' => 'Detail Pengadaan Barang',
+            'detailPengadaan' => $detailPengadaan,
+            'detailBarang' => $detailBarang,
+            'barangs' => $barangs,
+        ]);
+    }
+
+    public function storeDetail(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'idBarang' => 'required|integer',
+            'jumlah' => 'required|integer|min:1',
+            'hargaSatuan' => 'required|integer|min:1',
+            'idPengadaan' => 'required|integer|min:1',
+        ]);
+
+        // Ambil data dari request
+        $idBarang = $request->input('idBarang');
+        $jumlah = $request->input('jumlah');
+        $hargaSatuan = $request->input('hargaSatuan');
+        $idPengadaan = $request->input('idPengadaan');
+
+        // Panggil stored procedure untuk tambah barang pengadaan
+        DB::select('CALL tambah_barang_pengadaan(?, ?, ?, ?)', [
+            $hargaSatuan, $jumlah, $idBarang, $idPengadaan
+        ]);
+
+        // Redirect atau berikan respons sesuai kebutuhan aplikasi
+        return redirect()->back()->with('success', 'Detail pengadaan berhasil ditambahkan.');
+    }
 }
