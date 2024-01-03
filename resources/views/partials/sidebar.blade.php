@@ -3,7 +3,7 @@
         <li class="nav-item">
             <div class="d-flex sidebar-profile">
                 <div class="sidebar-profile-image">
-                    <img src="images/faces/Ghandi.jfif" alt="image">
+                    <img src="{{ asset('images/faces/Ghandi.jfif') }}" alt="image">
                     <span class="sidebar-status-indicator"></span>
                 </div>
                 <div class="sidebar-profile-name">

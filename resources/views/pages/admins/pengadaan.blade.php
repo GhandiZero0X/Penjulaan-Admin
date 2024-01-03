@@ -137,6 +137,15 @@
                 form.slideDown();
             }
         });
+
+        document.querySelectorAll('.viewPengadaan').forEach(button => {
+            button.addEventListener('click', function() {
+                // Ambil ID pengadaan dari data attribute
+                const idPengadaan = this.getAttribute('data-id');
+
+                // Redirect ke halaman detail pengadaan
+                window.location.href = `/pengadaan/${idPengadaan}/detail`;
+            });
+        });
     });
 </script>
-

@@ -2,7 +2,7 @@
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}">
             <div class="brand-content">
-                <img src="images/Teck_Market.png" alt="logo" class="brand-logo-image"
+                <img src="{{ asset('images/Teck_Market.png') }}" alt="logo" class="brand-logo-image"
                     style="max-width: 35px; max-height: 50px; margin-left: 25px;" />
                 <span class="brand-logo-text" style="color: #D12027; font-weight: bold;">TeckMarket </span>
             </div>

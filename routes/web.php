@@ -87,7 +87,9 @@ Route::put('/restore-barang/{id}', [BarangController::class, 'restoreBarang'])->
 
 // Page Pengadaan Routes
 Route::get('/pengadaan', [PengadaanController::class, 'index'])->name('pengadaan.index');
+Route::get('/pengadaan/{idpengadaan}/detail', [PengadaanController::class, 'indexDetail'])->name('pengadaan.detail');
 Route::post('/pengadaan', [PengadaanController::class, 'store'])->name('pengadaan.create');
+Route::post('/pengadaan/detail/create', [PengadaanController::class, 'storeDetail'])->name('pengadaan.detail.create');
 Route::put('/pengadaan/{$idpengadaan}/softdelete', [PengadaanController::class, 'softDelete'])->name('pengadaan.softdelete');
 Route::get('/pengadaan/deleted', [PengadaanController::class, 'getDeletedPengadaan'])->name('pengadaan.getsoftdeleted');
 Route::put('/restore-pengadaan/{id}', [PengadaanController::class, 'restorePengadaan'])->name('Pengadaan.restore');
