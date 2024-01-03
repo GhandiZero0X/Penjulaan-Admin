@@ -10,14 +10,19 @@ class PengadaanController extends Controller
 {
     public function index()
     {
-        $users = DB::select('SELECT iduser, username FROM user WHERE idrole = ? AND status_aktif = ?', [1, 1]);
-        $vendors = DB::select('SELECT idvendor, nama_vendor FROM vendor WHERE status_aktif = ?', [1]);
-        $barangs = DB::select('SELECT idbarang, nama FROM barang WHERE status_aktif = ?', [1]);
-        $pengadaan = DB::select('SELECT p.*, u.username, v.nama_vendor
-                                FROM pengadaan p
-                                JOIN user u ON p.user_iduser = u.iduser
-                                JOIN vendor v ON p.vendor_idvendor = v.idvendor
-                                WHERE p.status_aktif = ?', [1]);
+        // $users = DB::select('SELECT iduser, username FROM user WHERE idrole = ? AND status_aktif = ?', [1, 1]);
+        // $vendors = DB::select('SELECT idvendor, nama_vendor FROM vendor WHERE status_aktif = ?', [1]);
+        // $barangs = DB::select('SELECT idbarang, nama FROM barang WHERE status_aktif = ?', [1]);
+        // $pengadaan = DB::select('SELECT p.*, u.username, v.nama_vendor
+        //                         FROM pengadaan p
+        //                         JOIN user u ON p.user_iduser = u.iduser
+        //                         JOIN vendor v ON p.vendor_idvendor = v.idvendor
+        //                         WHERE p.status_aktif = ?', [1]);
+
+        $users = DB::select('SELECT iduser, username FROM users_pengadaan_view');
+        $vendors = DB::select('SELECT idvendor, nama_vendor FROM vendors_pengadaan_view');
+        $barangs = DB::select('SELECT idbarang, nama FROM barangs_pengadaan_view');
+        $pengadaan = DB::select('SELECT * FROM pengadaan_view');
 
         return view('pages.admins.pengadaan', [
             'title' => 'Daftar Pengadaan Barang',
