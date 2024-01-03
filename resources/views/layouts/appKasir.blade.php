@@ -2,25 +2,46 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $title }} TechMarket</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+    <link rel="stylesheet" href="{{ asset('vendors/typicons.font/font/typicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
+
+    <link rel="shortcut icon" href="{{ asset('images/Teck_Market.png') }}" />
 </head>
 
 <body>
-    @yield('content')
+    <div class="container-scroller">
+        @include('partials.Users.headerKasir')
+        <div class="container-fluid page-body-wrapper">
+            @include('partials.Users.settings-panelKasir')
+            @include('partials.Users.sidebarKasir')
+            <div class="main-panel">
+                @yield('content')
+                @include('partials.Users.footerKasir')
+            </div>
+        </div>
+    </div>
+    <!-- base:js -->
+    <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/off-canvas.js') }}"></script>
+    <script src="{{ asset('js/hoverable-collapse.js') }}"></script>
+    <script src="{{ asset('js/template.js') }}"></script>
+    <script src="{{ asset('js/settings.js') }}"></script>
+    <script src="{{ asset('js/todolist.js') }}"></script>
+
+    <script src="{{ asset('vendors/progressbar.js/progressbar.min.js') }}"></script>
+    <script src="{{ asset('vendors/chart.js/Chart.min.js') }}"></script>
+
+    {{-- <script src="js/dashboard.js"></script> --}}
+    <script src="{{ asset('js/dashboard.js') }}"></script>
 </body>
 
 </html>
