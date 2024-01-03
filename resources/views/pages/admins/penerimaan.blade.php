@@ -74,7 +74,7 @@
                                     <td style="text-align: center;">
                                         {{-- Add your actions/buttons here --}}
                                         <div class="btn-group">
-                                            <button data-id="{{ $item->idpenerimaan }}"
+                                            <button data-idpenerimaan="{{ $item->idpenerimaan }}"
                                                 class="btn btn-info btn-sm viewPenerimaan">
                                                 <i class="typcn typcn-eye"></i> Detail
                                             </button>
@@ -119,6 +119,16 @@
                 error: function(error) {
                     console.error(error);
                 }
+            });
+        });
+
+        document.querySelectorAll('.viewPenerimaan').forEach(button => {
+            button.addEventListener('click', function() {
+                // Ambil ID pengadaan dari data attribute
+                const idpenerimaan = this.getAttribute('data-idpenerimaan');
+
+                // Redirect ke halaman detail pengadaan
+                window.location.href = `/penerimaan/${idpenerimaan}/detail`;
             });
         });
     });
